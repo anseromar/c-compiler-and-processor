@@ -1,0 +1,68 @@
+%{
+#include <math.h>
+#include "y.tab.h"
+%}
+
+SPACE		[ \t]+
+DIGIT		[0-9]
+INTEGER		{DIGIT}+
+EXP			("e"|"E"|"exp")[+-]?{INTEGER}
+NUMBER		{INTEGER}("."{INTEGER})?{EXP}?
+ID			[a-zA-Z][a-zA-Z0-9\_]*
+
+%%
+
+"main"		{return(tMAIN);}
+"return"	{return(tRETURN);}
+"print"		{return(tPRINT);}
+
+"if"		{return(tIF);}
+"while"		{return(tWHILE);}
+"else"      {return(tELSE);}
+		
+"int"		{return(tINT);}
+"const"		{return(tCONST);}
+
+"{"			{return(tACC_L);}
+"}"			{return(tACC_R);}
+
+{ID}		{	
+				yylval.var = strdup(yytext);
+				return(tID);	
+			}
+
+
+"||"		{return(tOR);}
+"&&"		{return(tAND);}
+"=="		{return(tEQUALS);}
+"!="		{return(tDIFF);}
+"<"    		{return(tINF);}
+">"			{return(tSUP);}
+"!"			{return tNOT;}
+"&"			{return tADDR;}
+"["			{return tL_BRCK;}
+"]" 		{return tR_BRCK;}
+
+"+"			{return(tPLUS);}
+"-"			{return(tMINUS);}
+"*"			{return(tMULT);}
+"/"			{return(tDIV);}
+"="			{return(tAFFECT);}
+"("			{return(tPAR_L);}
+")"			{return(tPAR_R);}
+
+{SPACE}		{}
+[\n]+		{}
+","			{return(tCOMA);}
+
+";"			{return(tBRK_PT);}
+
+{NUMBER}	{
+				yylval.nb = atoi(yytext);
+				return(tNUMBER);
+			}
+
+
+. 			{printf("Error\n\n");}
+
+%%

@@ -1,0 +1,58 @@
+radelin@laas.fr
+ymao@laas.fr
+
+
+
+man FLEX :
+http://dinosaur.compilertools.net/flex/manpage.html
+
+man YACC :
+http://dinosaur.compilertools.net/yacc/index.html
+
+Syntaxe du C :
+https://cs.wmich.edu/~gupta/teaching/cs4850/sumII06/The%20syntax%20of%20C%20in%20Backus-Naur%20form.htm
+
+
+
+
+flex analyseur_lexical
+
+yacc -d -v -t compiler.y
+// Le -v génère un fichier .y de log d'erreurs et avertissements.
+// -t pour le debug (cf. yydebug en fin de fichier yacc).
+
+gcc y.tab.c lex.yy.c -o compiler -ly -ll
+
+
+
+
+
+
+/* ================== IMPORTANT ==================
+ * Il faut utiliser une variable globale pour récupérer le type de la variable déclarée.
+ * Il faut créer un tableau contenant toutes les instructions assembleur et le manipuler pour écrire en assembleur.
+ * Le code assembleur sera écrit au fur et à mesure des règles de la grammaire (par des fonctions d'écriture dans le fichier assembleur).
+ */
+
+
+
+
+
+
+int main() 
+{ 
+    struct Stack* stack = createStack(100); 
+
+	sym_node_struct node;
+	node.type = "double"; 
+	node.symbol = "aa";
+	node.address = 4500;
+	node.depth = 0;
+	node.initialized = 1;
+
+
+	push(stack, node); 
+    pop(stack); 
+ 
+    return 0; 
+} 
