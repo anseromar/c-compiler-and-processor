@@ -10,7 +10,7 @@ y.tab.c: source/compiler.y
 	yacc -d -v -t source/compiler.y
 
 test: compiler
-	./compiler < Brieuc_qui_fait_des_tests/if_else.c
+	./compiler < Brieuc_qui_fait_des_tests/while.c
 
 clean:
 	rm lex.yy.c y.tab.c y.tab.h

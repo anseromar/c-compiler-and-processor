@@ -78,7 +78,7 @@ If : tIF  ConditionIf
 
 	tACC_L Declarations Instructions tACC_R %prec tIFX 
 					{
-					assem_modify_arg_instr($<nb>2, 0, assem_number_instr()); // On rectifie la ligne du saut du JMPC, préalablement initialisée à une valeur par défaut (-1).
+					assem_modify_arg_instr($<nb>2, 0, assem_number_instr() + 1 ); // On rectifie la ligne du saut du JMPC, préalablement initialisée à une valeur par défaut (-1).
 					}
 
 	|tIF ConditionIf
@@ -88,19 +88,25 @@ If : tIF  ConditionIf
 					 assem_add_instr_arg2("JMPC", -1, 1);
 					 $6 = assem_number_instr() - 1;
 					 /*RETOURNER LA lIGNE OU JUMP POUR LE ELSE*/
-					 assem_modify_arg_instr($<nb>2, 0, assem_number_instr());
+					 assem_modify_arg_instr($<nb>2, 0, assem_number_instr() + 1);
 				   }
 	
 	tELSE tACC_L Declarations Instructions tACC_R { /*EN LIEN AVEC (1) PERMET DE FORNI LE NUMERO DE LIGNE*/ 
-	$6 = assem_modify_arg_instr($6, 0, assem_number_instr());
+	     assem_modify_arg_instr($6, 0, assem_number_instr() + 1);
                                                 	} ;
 
-While : tWHILE Condition {/*MEME IDEE QUE POUR LE IF*/
-						   assem_add_instr_arg2("LOAD", 1,$2);
+/*PAS OPÉRATIOINNEL :	- LOAD NE FONCTIONNE PAS (MEME PB QUE POUR LE IF)
+						- INF COMPARE LE MEME REGISTRE R0 AVEC LUI-MEME (TOUJOURS FAUX)
+						- BIEN QU'ON FASSE R0<R0 COMME TEST, ON ENTRE QUAND MEME DANS LA BOUCLE
+						- JUMP AU MAUVAIS ENDROIT, COMME SI ON EFFECTUAIT UN IF (ET NON AU DEBUT DE LA BOUCLE)
+						*/
+
+While : tWHILE Condition { /*MEME IDEE QUE POUR LE IF*/
+						   assem_add_instr_arg2("LOAD", 1, $2);
 						   assem_add_instr_arg2("JMPC", -1, 1);
                            $1 = assem_number_instr() - 1;
-						 } tACC_L Declarations Instructions tACC_R 
-						 { /*RETOURNER LA lIGNE OU JUMP POUR LE WHILE*/
+						 } tACC_L Declarations Instructions {  } tACC_R 
+						 { /*RETOURNER LA lIGNE OU JUMP POUR LE WHILE : JUMP EN ARRIERE */
 						   assem_modify_arg_instr($1, 0, assem_number_instr()); };
 		
 Condition: tPAR_L Expression tINF Expression tPAR_R { 
@@ -195,7 +201,9 @@ Expression : Expression tPLUS Expression {
 									printf(" Elle n'existe même pas ta variable ! \n" );	
 								}	
 							   sym_set_init_id($1, 1);
- 							   $$ = sym_get_index_bloc($1);					
+ 							   
+							   $$ = sym_get_last_temporary_index();
+					
 							 }
 	| tMULT tID tAFFECT Expression { $$ = 123; }
 	| tID tL_BRCK tNUMBER tR_BRCK tAFFECT Expression { $$ = 123; }
@@ -205,7 +213,7 @@ Expression : Expression tPLUS Expression {
 			}else if (sym_check_init_id($1) == 0){
 				printf(" La variable %s n'est pas initialisée\n",$1);
 			}
-			$$ = sym_get_index_bloc($1);
+			$$ = sym_get_last_temporary_index();
 		  }
 	| tMULT tID { $$ = 123; }
 	| tADDR tID { $$ = 123; }
@@ -220,13 +228,13 @@ Expression : Expression tPLUS Expression {
 %%
 int main(){
 	yydebug = 0;
-
 	//lab_init(); 
 	sym_init();
 	assem_init();
 	//fonc_init();
 	yyparse();
 	sym_display();
+	assem_display();
 	assem_write_file_instrs();
 	//fonc_maj_appels_mem_instr();
 	//mem_ecr_instrs();

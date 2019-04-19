@@ -4,20 +4,8 @@ int main() {
 	int c = 1;
 	
 	if (a == b){
-		if (c == 0){
-			a = b;
-		} else{
-			int d;
-			c = 0;
-		}
-	}
-
-	if (a == b){}
-	// Le dernier IF avant le ELSE est associé au token IFX.
-	if (c == 0){
-		a = b;
+		c = 2;
 	} else{
-		int d;
-		c = 0;
-	}
+		c = 3;
+	}	
 }
