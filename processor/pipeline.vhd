@@ -13,22 +13,27 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity pipeline is
 	generic(N: natural := 8);
 	port(
-		-- A is the input and Mult the multiplier of the 
-		A, Mult: in std_logic_vector(N-1 downto 0);
+		-- Input: the assembly operation and its three caracteristics
+		IN_Op: in std_logic_vector(N-1 downto 0);
+		IN_A, IN_B , IN_C: in std_logic_vector(N*2-1 downto 0);
 		-- Clock flag
 		Ck: in std_logic;
-		-- S is the output of the pipeline.
-		S: in std_logic_vector(N-1 downto 0);
+		-- Output:  the assembly operation and its three caracteristics
+		OUT_Op: in std_logic_vector(N-1 downto 0);
+		OUT_A, OUT_B , OUT_C: in std_logic_vector(N*2-1 downto 0)
 	);
 end pipeline;
 
 architecture Behavioral of pipeline is
-	signal Temp: std_logic_vector(N-1 downto 0) = Mult;
-begin
 
-	wait until Ck ' event and Ck = '1';
-	Temp = std_logic_vector(unsigned(Temp)-1);
-	Temp	<= Mult	when Temp=0;
-	S		<= A		when Temp=0;
+begin
+	process (CLK)
+	begin
+		wait until CLK'event and CLK='1';
+		OUT_Op <= IN_Op;
+		OUT_A <= IN_A;
+		OUT_B <= IN_B;
+		OUT_C <= IN_C;
+	end process;
 
 end Behavioral;
