@@ -11,23 +11,25 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity pipeline is
-	generic(N: natural := 8);
+	-- N:  Generic size of an assembly operation
+	-- Nr: Generic size of an assembly instruction parameter
+	generic(N: natural := 8 ; Nr: natural := 16);
 	port(
 		-- Input: the assembly operation and its three caracteristics
 		IN_Op: in std_logic_vector(N-1 downto 0);
-		IN_A, IN_B , IN_C: in std_logic_vector(N*2-1 downto 0);
+		IN_A, IN_B , IN_C: in std_logic_vector(Nr-1 downto 0);
 		-- Clock flag
-		Ck: in std_logic;
+		CLK: in std_logic;
 		-- Output:  the assembly operation and its three caracteristics
-		OUT_Op: in std_logic_vector(N-1 downto 0);
-		OUT_A, OUT_B , OUT_C: in std_logic_vector(N*2-1 downto 0)
+		OUT_Op: out std_logic_vector(N-1 downto 0);
+		OUT_A, OUT_B , OUT_C: out std_logic_vector(Nr-1 downto 0)
 	);
 end pipeline;
 
 architecture Behavioral of pipeline is
 
 begin
-	process (CLK)
+	process
 	begin
 		wait until CLK'event and CLK='1';
 		OUT_Op <= IN_Op;

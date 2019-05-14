@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_ARITH.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+-- use IEEE.STD_LOGIC_ARITH.ALL;
+-- use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
@@ -29,48 +29,51 @@ entity arithmetic_logic_unit is
 end arithmetic_logic_unit;
 
 architecture Behavioral of arithmetic_logic_unit is
+	constant Zero:  std_logic_vector(2*N-1 downto 0) := (others => '0');
 	-- Temporary values in 9 bits (addition/substraction) and 16 bits (multiplication) instead of 8 only
-	signal S_temp_add: std_logic_vector(N downto 0) := (others => '0');
+	signal S_temp_add:  std_logic_vector(N downto 0) := (others => '0');
 	signal S_temp_mult: std_logic_vector(N*2-1 downto 0) := (others => '0');
+	-- Temporary value  at the very end of the component, to be able to compare the output without reading it (and so declaring it as inout).
+	signal S_temp_bis:  std_logic_vector(N-1 downto 0) := (others => '0');
 begin
 	
 	-- Temporary signals assignation
 	S_temp_add <= --Addition or substraction
-					std_logic_vector(('0'&signed(A)) + ('0'&signed(B)))
-						when Ctrl="01"
-					else std_logic_vector(('0'&signed(A)) - ('0'&signed(B)))
-						when Ctrl="10"
+					std_logic_vector(("0"&signed(A)) + ("0"&signed(B)))							when Ctrl="01"
+					else std_logic_vector(("0"&signed(A)) - ("0"&signed(B)))						when Ctrl="10"
 					else (others=>'0');
 	
 	S_temp_mult <=	-- Multiplication
-					std_logic_vector(("00000000"&unsigned(A)) * ("00000000"&unsigned(B)))
-						when Ctrl="11"
+					std_logic_vector(("00000000"&unsigned(A)) * ("00000000"&unsigned(B)))	when Ctrl="11"
 					else (others=>'0');
 	
 	
 	-- Output signal assignation
-	S <= S_temp_add (N downto 0)
-						when (Ctrl="01" or Ctrl="10")
-					else (others=>'0');
-	S <= S_temp_mult(N downto 0)
-						when Ctrl="11"
-					else (others=>'0');
+	S_temp_bis <= S_temp_add (N downto 0)
+							when (Ctrl="01" or Ctrl="10")
+						else (others=>'0');
+	S_temp_bis <= S_temp_mult(N downto 0)
+							when Ctrl="11"
+						else (others=>'0');
 	
+	S <= S_temp_bis;
 	
 	--Flags
 	-- Null output
-	flag_Z <= '1'	when S_temp(N*2-1 downto 0) = 0
+	flag_Z <= '1'	when (S_temp_add(N downto 0) = Zero(N downto 0)) and (S_temp_mult(N*2-1 downto 0) = Zero(2*N-1 downto 0))
 						else '0';
 	-- Carry
-	flag_C <= '1'	when S_temp(N)='1'
+	flag_C <= '1'	when S_temp_add(N) = '1'
 							and Ctrl="01"
 						else '0';
 	-- Negative output
-	flag_N <= '1'	when S_temp(N-1)
-							and (Ctrl="01" or Ctrl="10")
+	flag_N <= '1'	when	( S_temp_add(N-1) = '1'
+							and (Ctrl="01" or Ctrl="10") )
+						or		( S_temp_mult(N-1) = '1'
+							and Ctrl="11" )
 						else '0';
 	-- Overflow (signed bit affected)
-	flag_O <= '1'	when	( (S_temp_add(N-1) /= S(N-1))
+	flag_O <= '1'	when	( (S_temp_add(N-1) /= S_temp_bis(N-1))
 							and (Ctrl="01" or Ctrl="10") )
 						or		( (S_temp_mult(7 downto 0) /= "00000000")
 							and Ctrl="11" )

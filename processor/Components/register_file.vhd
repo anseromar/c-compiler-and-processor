@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -42,7 +43,7 @@ begin
 			DATA;
 		
 	-- Writing in register Addr_W if W='1'
-	process (CLK)
+	process
 	begin
 		wait until CLK'event and CLK='1';
 		--if raising_edge(CLK) then
