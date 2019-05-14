@@ -29,6 +29,7 @@ entity arithmetic_logic_unit is
 end arithmetic_logic_unit;
 
 architecture Behavioral of arithmetic_logic_unit is
+	-- Constant zero; used for comparisons
 	constant Zero:  std_logic_vector(2*N-1 downto 0) := (others => '0');
 	-- Temporary values in 9 bits (addition/substraction) and 16 bits (multiplication) instead of 8 only
 	signal S_temp_add:  std_logic_vector(N downto 0) := (others => '0');

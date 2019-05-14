@@ -11,7 +11,7 @@ entity instructions_bank is
 		-- Address of the memory space to read into
 		Addr: in std_logic_vector(N-1 downto 0);
 		-- Clk: Clock event
-		Clk: in std_logic;
+		CLK: in std_logic;
 		-- Output
 		Output: out std_logic_vector(N_instr-1 downto 0)
 	);
