@@ -5,14 +5,14 @@ Parameter TMPDIR set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme inf
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.08 secs
+Total CPU time to Xst completion: 0.06 secs
  
 --> 
 Parameter xsthdpdir set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.09 secs
+Total CPU time to Xst completion: 0.06 secs
  
 --> 
 Reading design: arithmetic_logic_unit.prj
@@ -48,13 +48,13 @@ Parsing entity <arithmetic_logic_unit>.
 Parsing architecture <Behavioral> of entity <arithmetic_logic_unit>.
 
 
-Total REAL time to Xst completion: 4.00 secs
-Total CPU time to Xst completion: 3.27 secs
+Total REAL time to Xst completion: 3.00 secs
+Total CPU time to Xst completion: 2.75 secs
  
 --> 
 
 
-Total memory usage is 300984 kilobytes
+Total memory usage is 300988 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :    0 (   0 filtered)

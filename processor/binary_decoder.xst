@@ -2,7 +2,7 @@ set -tmpdir "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compile
 set -xsthdpdir "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/xst"
 run -compileonly yes
 -p xc6slx16-2-csg324
--top data_bank
+-top binary_decoder
 -opt_mode Speed
 -opt_level 1
 -power NO
@@ -47,4 +47,4 @@ run -compileonly yes
 -iob Auto
 -equivalent_register_removal YES
 -slice_utilization_ratio_maxmargin 5
--ifn data_bank.prj
+-ifn binary_decoder.prj

@@ -18,8 +18,8 @@ package common is
 	-- store an instruction
 	-- maybe some of you have instruction with two operands: OP_CODE A B, you will need 24 bits to
 	-- store an instruction, so you will have to adjust LEN_INSTR
-	-- to change the size of the bus according to the size of your instruction
-	constant LEN_SEL: natural := 16;
+	-- change the size of the bus according to the size of your instruction
+	constant LEN_SEL: natural := 256;
 	constant LEN_INSTR: natural := 32;
 
 	type instrArray is array(0 to 2**LEN_SEL-1) of std_logic_vector(LEN_INSTR-1 downto 0);

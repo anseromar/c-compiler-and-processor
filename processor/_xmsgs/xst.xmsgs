@@ -8,5 +8,11 @@
 <msg type="info" file="Xst" num="0" delta="new" >Part-select index evaluated to out of bound value may lead to incorrect synthesis results; it is recommended not to use them in RTL
 </msg>
 
+<msg type="error" file="HDLCompiler" num="495" delta="new" >"/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/instructions_bank.vhd" Line 25: Illegal named association in array index
+</msg>
+
+<msg type="error" file="HDLCompiler" num="854" delta="new" >"/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/instructions_bank.vhd" Line 21: Unit &lt;<arg fmt="%s" index="1">behavioral</arg>&gt; ignored due to previous errors.
+</msg>
+
 </messages>
 
