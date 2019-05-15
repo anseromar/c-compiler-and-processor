@@ -12,11 +12,11 @@ use IEEE.NUMERIC_STD.ALL;
 entity arithmetic_logic_unit is
 	generic(N: natural := 8);
 	port(
-		-- A and B are the input of the operations.
-		A, B: in std_logic_vector(N-1 downto 0);
 		-- Ctrl commands which operation is to be executed.
 		-- Its first bit indicates wether the operation is signed (1) or not (0).
 		Ctrl: in std_logic_vector(1 downto 0);
+		-- A and B are the input of the operations.
+		A, B: in std_logic_vector(N-1 downto 0);
 		-- S is the output of the operation A OP B.
 		S: out std_logic_vector(N-1 downto 0);
 		-- The flags indicate :

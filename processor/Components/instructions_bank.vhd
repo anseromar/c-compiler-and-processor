@@ -8,10 +8,10 @@ entity instructions_bank is
 	-- Nb: Generic size of the bank
 	generic(N:  natural := 8 ; N_instr: natural := 32 ; Nb: natural := 256);
 	port(
-		-- Address of the memory space to read into
-		Addr: in std_logic_vector(N-1 downto 0);
 		-- Clk: Clock event
 		CLK: in std_logic;
+		-- Address of the memory space to read into
+		Addr: in std_logic_vector(N-1 downto 0);
 		-- Output
 		Output: out std_logic_vector(N_instr-1 downto 0)
 	);

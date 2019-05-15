@@ -21,10 +21,12 @@ entity register_file is
 		-- RST: '1' to reset all registers
 		-- W: '1' to write in the register at Addr_W
 		CLK, RST, W: in std_logic;
-		-- Address of the registers to read/write into
-		Addr_A, Addr_B, Addr_W: in std_logic_vector(Na-1 downto 0);
+		-- Address of the registers to write into
+		Addr_W: in std_logic_vector(Na-1 downto 0);
 		-- Data to write
 		Data: in std_logic_vector(Nsr-1 downto 0);
+		-- Address of the registers to read from
+		Addr_A, Addr_B: in std_logic_vector(Na-1 downto 0);
 		-- Output: content of the two registers if W='0'
 		QA, QB: out std_logic_vector(Nsr-1 downto 0)
 	);

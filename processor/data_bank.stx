@@ -5,14 +5,14 @@ Parameter TMPDIR set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme inf
 
 
 Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.11 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> 
 Parameter xsthdpdir set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/xst
 
 
 Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.11 secs
+Total CPU time to Xst completion: 0.10 secs
  
 --> 
 Reading design: data_bank.prj
@@ -49,12 +49,12 @@ Parsing architecture <Behavioral> of entity <data_bank>.
 
 
 Total REAL time to Xst completion: 4.00 secs
-Total CPU time to Xst completion: 3.42 secs
+Total CPU time to Xst completion: 2.92 secs
  
 --> 
 
 
-Total memory usage is 300980 kilobytes
+Total memory usage is 300984 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :    0 (   0 filtered)

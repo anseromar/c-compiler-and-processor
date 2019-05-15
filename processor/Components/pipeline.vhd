@@ -11,18 +11,17 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity pipeline is
-	-- N:  Generic size of an assembly operation
-	-- Nr: Generic size of an assembly instruction parameter
-	generic(N: natural := 8 ; Nr: natural := 16);
+	-- N:  Generic size of an assembly operation and of each of its parameters
+	generic(N: natural := 8);
 	port(
 		-- Clock flag
 		CLK: in std_logic;
 		-- Input: the assembly operation and its three caracteristics
 		IN_Op: in std_logic_vector(N-1 downto 0);
-		IN_A, IN_B , IN_C: in std_logic_vector(Nr-1 downto 0);
+		IN_A, IN_B , IN_C: in std_logic_vector(N-1 downto 0);
 		-- Output:  the assembly operation and its three caracteristics
 		OUT_Op: out std_logic_vector(N-1 downto 0);
-		OUT_A, OUT_B , OUT_C: out std_logic_vector(Nr-1 downto 0)
+		OUT_A, OUT_B , OUT_C: out std_logic_vector(N-1 downto 0)
 	);
 end pipeline;
 

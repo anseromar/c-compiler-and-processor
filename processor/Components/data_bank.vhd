@@ -12,19 +12,19 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity data_bank is
-	-- Na:  Generic size of the addresses
-	-- N: Generic size of the memory spaces
-	-- Nb:  Generic size of the bank
+	-- Na: Generic size of the addresses
+	-- N:  Generic size of the memory spaces
+	-- Nb: Generic size of the bank
 	generic(Na:  natural := 8 ; N: natural := 8 ; Nb: natural := 256);
 	port(
+		-- CLK: Clock event
+		-- RST: '1' to reset all registers
+		-- RW: '1' to write & '0' to read in the memory at Addr
+		CLK, RST, RW: in std_logic;
 		-- Address of the memory space to read/write into
 		Addr: in std_logic_vector(Na-1 downto 0);
 		-- Content to write
 		Input: in std_logic_vector(N-1 downto 0);
-		-- RW: '1' to write & '0' to read in the memory at Addr
-		-- RST: '1' to reset all registers
-		-- CLK: Clock event
-		RW, RST, CLK: in std_logic;
 		-- Output
 		Output: out std_logic_vector(N-1 downto 0)
 	);
