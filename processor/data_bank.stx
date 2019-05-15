@@ -4,18 +4,18 @@ Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
 Parameter TMPDIR set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.05 secs
  
 --> 
 Parameter xsthdpdir set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/xst
 
 
-Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.06 secs
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.05 secs
  
 --> 
-Reading design: instructions_bank.prj
+Reading design: data_bank.prj
 
 TABLE OF CONTENTS
   1) Synthesis Options Summary
@@ -43,18 +43,20 @@ INFO:Xst - Part-select index evaluated to out of bound value may lead to incorre
 =========================================================================
 *                          HDL Parsing                                  *
 =========================================================================
-Parsing VHDL file "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/instructions_bank.vhd" into library work
-Parsing entity <instructions_bank>.
-Parsing architecture <Behavioral> of entity <instructions_bank>.
-ERROR:HDLCompiler:495 - "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/instructions_bank.vhd" Line 26: Illegal named association in array index
-ERROR:HDLCompiler:854 - "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/instructions_bank.vhd" Line 21: Unit <behavioral> ignored due to previous errors.
-VHDL file /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/instructions_bank.vhd ignored due to errors
+Parsing VHDL file "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/data_bank.vhd" into library work
+Parsing entity <data_bank>.
+Parsing architecture <Behavioral> of entity <data_bank>.
+
+
+Total REAL time to Xst completion: 3.00 secs
+Total CPU time to Xst completion: 2.28 secs
+ 
 --> 
 
 
 Total memory usage is 300980 kilobytes
 
-Number of errors   :    2 (   0 filtered)
+Number of errors   :    0 (   0 filtered)
 Number of warnings :    0 (   0 filtered)
 Number of infos    :    1 (   0 filtered)
 

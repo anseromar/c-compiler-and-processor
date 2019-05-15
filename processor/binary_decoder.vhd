@@ -31,24 +31,22 @@ architecture Behavioral of binary_decoder is
 begin
 	process
 	begin
-		operation <= Full_instr((N*4)-1 downto N*3);
-
-		--TODO: Error with comparison in the if/elsif statements
+		operation <= Full_instr(4*N-1 downto 3*N);
 
 		-- ADD, MUL, SOU, DIV
-		if (unsigned(operation)<=x"04") then
+		if (operation <= x"04") then
 			Op <= operation;
-			A <= Full_instr((N*3)-1 downto N*2);
-			B <= Full_instr((N*2)-1 downto N*1);
-			C <= Full_instr((N*1)-1 downto 0);
+			A <= Full_instr(3*N-1 downto 2*N);
+			B <= Full_instr(2*N-1 downto 1*N);
+			C <= Full_instr(1*N-1 downto 0);
 		-- COP, AFC, LOAD, STORE
-		elsif (unsigned(operation)>=x"05" AND unsigned(operation)<="08") then
+		elsif (x"05" <= operation AND operation <= x"08") then
 			Op <= operation;
-			A <= Full_instr((N*3)-1 downto N*1);
-			B <= Full_instr((N*1)-1 downto 0);
+			A <= Full_instr(3*N-1 downto 2*N);
+			B <= Full_instr(1*N-1 downto 0);
 			C <= x"FF";
 		-- NOPE
-		elsif (unsigned(operation)=x"FF") then
+		elsif (operation = x"FF") then
 			Op <= operation;
 			A <= x"FF";
 			B <= x"FF";

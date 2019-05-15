@@ -67,18 +67,31 @@ BEGIN
    stim_proc: process
    begin		
       -- hold reset state for 100 ns.
-      wait for CLK_period*5;
+      wait for 5*CLK_period;
 		
-		A <= x"01";
-		B <= x"02";
 		Ctrl <= "01";
+		A	<= x"01";
+		B	<= x"02";
 		
-      wait for CLK_period*5;
+      wait for 5*CLK_period;
 
-      -- insert stimulus here
-		A <= x"01";
-		B <= x"02";
 		Ctrl <= "01";
+		A <= x"0001";
+		B <= x"0002";
+		
+      wait for 5*CLK_period;
+
+		Ctrl <= x"01";
+		A <= x"FFFF";
+		B <= x"0005";
+
+      wait for 5*CLK_period;
+
+		Ctrl <= x"02";
+		A <= x"0002";
+		B <= x"0003";
+		
+      wait for 5*CLK_period;
 
       wait;
    end process;
