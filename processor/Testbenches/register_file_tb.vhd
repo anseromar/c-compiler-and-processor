@@ -95,42 +95,50 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin
-    -- Write & read addr0; then write addr1 and read both addr; then reset.
+    -- Write & read (with A & B) @0; then write @1 and read both addr (with A & B same address then separate ones); then reset.
 
     wait for 5*CLK_period;
 
-    -- Write @ "00"
+    -- Write @ "00" with B
     CLK <= CLK;
-    RW <= '1';
-    Addr <= x"00";
+    W <= '1';
+    Addr_W <= x"00";
     Data	<= x"2A";
 
     wait for 5*CLK_period;
 
-    -- Read @ "00"
-    RW <= '0';
-    Addr <= x"00";
+    -- Read @ "00" with A
+    W <= '0';
+    Addr_A <= x"00";
+
+    wait for 5*CLK_period;
+
+    -- Read @ "00" with B
+    W <= '0';
+    Addr_B <= x"00";
 
 
     wait for 10*CLK_period;
 
 
     -- Write @ "07"
-    RW <= '1';
-    Addr <= x"07";
+    W <= '1';
+    Addr_W <= x"07";
     Data <= x"FF";
 
     wait for 5*CLK_period;
 
     -- Read @ "00"
-    RW <= '0';
-    Addr <= x"00";
+    W <= '0';
+    Addr_A <= x"00";
+    Addr_B <= x"00";
 
     wait for 5*CLK_period;
 
     -- Read @ "07"
-    RW <= '0';
-    Addr <= x"07";
+    W <= '0';
+    Addr_A <= x"07";
+    Addr_B <= x"00";
 
 
     wait for 10*CLK_period;

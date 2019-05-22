@@ -5,14 +5,14 @@ Parameter TMPDIR set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme inf
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Parameter xsthdpdir set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Reading design: binary_decoder.prj
@@ -50,12 +50,12 @@ WARNING:HDLCompiler:1369 - "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme
 
 
 Total REAL time to Xst completion: 3.00 secs
-Total CPU time to Xst completion: 2.27 secs
+Total CPU time to Xst completion: 2.79 secs
  
 --> 
 
 
-Total memory usage is 300980 kilobytes
+Total memory usage is 300984 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :    1 (   0 filtered)

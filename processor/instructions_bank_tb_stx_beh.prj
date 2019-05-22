@@ -1,0 +1,2 @@
+vhdl isim_temp "Components/instructions_bank.vhd"
+vhdl isim_temp "Testbenches/instructions_bank_tb.vhd"

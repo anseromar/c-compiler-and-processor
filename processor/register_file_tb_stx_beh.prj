@@ -1,0 +1,2 @@
+vhdl isim_temp "Components/register_file.vhd"
+vhdl isim_temp "Testbenches/register_file_tb.vhd"

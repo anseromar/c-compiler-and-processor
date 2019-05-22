@@ -5,14 +5,14 @@ Parameter TMPDIR set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme inf
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.09 secs
  
 --> 
 Parameter xsthdpdir set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.04 secs
+Total CPU time to Xst completion: 0.09 secs
  
 --> 
 Reading design: register_file.prj
@@ -48,8 +48,8 @@ Parsing entity <register_file>.
 Parsing architecture <Behavioral> of entity <register_file>.
 
 
-Total REAL time to Xst completion: 2.00 secs
-Total CPU time to Xst completion: 2.25 secs
+Total REAL time to Xst completion: 3.00 secs
+Total CPU time to Xst completion: 2.85 secs
  
 --> 
 
