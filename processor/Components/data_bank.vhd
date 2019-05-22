@@ -38,6 +38,11 @@ begin
 	process
 	begin
 		wait until CLK'event and CLK='1';
+
+		-- The priority between the different actions is as follows:
+		--   (1) reset, because reading or writing whilst resetting is useless
+		--   (2) read, to read before potentially overwriting
+		--   (3) write
 		-- Reset
 		if RST = '1' then
 			data_b <= (others => (others => '0'));

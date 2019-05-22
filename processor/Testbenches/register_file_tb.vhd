@@ -1,44 +1,44 @@
 --------------------------------------------------------------------------------
--- Company: 
+-- Company:
 -- Engineer:
 --
 -- Create Date:   16:52:21 05/15/2019
--- Design Name:   
+-- Design Name:
 -- Module Name:   /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Testbenches/register_file_tb.vhd
 -- Project Name:  processor
--- Target Device:  
--- Tool versions:  
--- Description:   
--- 
+-- Target Device:
+-- Tool versions:
+-- Description:
+--
 -- VHDL Test Bench Created by ISE for module: register_file
--- 
+--
 -- Dependencies:
--- 
+--
 -- Revision:
 -- Revision 0.01 - File Created
 -- Additional Comments:
 --
--- Notes: 
+-- Notes:
 -- This testbench has been automatically generated using types std_logic and
 -- std_logic_vector for the ports of the unit under test.  Xilinx recommends
 -- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation 
+-- to guarantee that the testbench will bind correctly to the post-implementation
 -- simulation model.
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
- 
+
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
- 
+
 ENTITY register_file_tb IS
 END register_file_tb;
- 
-ARCHITECTURE behavior OF register_file_tb IS 
- 
+
+ARCHITECTURE behavior OF register_file_tb IS
+
     -- Component Declaration for the Unit Under Test (UUT)
- 
+
     COMPONENT register_file
     PORT(
          CLK : IN  std_logic;
@@ -52,7 +52,7 @@ ARCHITECTURE behavior OF register_file_tb IS
          QB : OUT  std_logic_vector(7 downto 0)
         );
     END COMPONENT;
-    
+
 
    --Inputs
    signal CLK : std_logic := '0';
@@ -69,9 +69,9 @@ ARCHITECTURE behavior OF register_file_tb IS
 
    -- Clock period definitions
    constant CLK_period : time := 10 ns;
- 
+
 BEGIN
- 
+
 	-- Instantiate the Unit Under Test (UUT)
    uut: register_file PORT MAP (
           CLK => CLK,
@@ -90,23 +90,54 @@ BEGIN
    begin
 		CLK <= not CLK after CLK_period/2;
    end process;
- 
+
 
    -- Stimulus process
    stim_proc: process
    begin
-		
-      wait for 5*CLK_period;
+    -- Write & read addr0; then write addr1 and read both addr; then reset.
 
-		Addr_W <= x"1";
-		W <= '1';
-		DATA <= x"0022";
+    wait for 5*CLK_period;
 
-		wait for 5*CLK_period;
+    -- Write @ "00"
+    CLK <= CLK;
+    RW <= '1';
+    Addr <= x"00";
+    Data	<= x"2A";
 
-		Addr_A <= x"1";
-		
-      wait for 5*CLK_period;
+    wait for 5*CLK_period;
+
+    -- Read @ "00"
+    RW <= '0';
+    Addr <= x"00";
+
+
+    wait for 10*CLK_period;
+
+
+    -- Write @ "07"
+    RW <= '1';
+    Addr <= x"07";
+    Data <= x"FF";
+
+    wait for 5*CLK_period;
+
+    -- Read @ "00"
+    RW <= '0';
+    Addr <= x"00";
+
+    wait for 5*CLK_period;
+
+    -- Read @ "07"
+    RW <= '0';
+    Addr <= x"07";
+
+
+    wait for 10*CLK_period;
+
+
+    -- Reset
+    RST <= '1';
 
 		wait;
 	end process;

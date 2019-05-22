@@ -1,0 +1,58 @@
+   -- Clock process definitions
+   CLK_process :process
+   begin
+    CLK <= not CLK after CLK_period/2;
+   end process;
+
+
+   -- Stimulus process
+   stim_proc: process
+   begin
+    -- Write & read addr0; then write addr1 and read both addr; then reset.
+
+    wait for 5*CLK_period;
+
+    -- Write @ "00"
+    CLK <= CLK;
+    RW <= '1';
+    Addr <= x"00";
+    Input	<= x"2A";
+
+    wait for 5*CLK_period;
+
+    -- Read @ "00"
+    RW <= '0';
+    Addr <= x"00";
+
+
+    wait for 10*CLK_period;
+
+
+    -- Write @ "07"
+    RW <= '1';
+    Addr <= x"07";
+    Input <= x"FF";
+
+    wait for 5*CLK_period;
+
+    -- Read @ "00"
+    RW <= '0';
+    Addr <= x"00";
+
+    wait for 5*CLK_period;
+
+    -- Read @ "07"
+    RW <= '0';
+    Addr <= x"07";
+
+
+    wait for 10*CLK_period;
+
+
+    -- Reset
+    RST <= '1';
+
+    wait;
+   end process;
+
+END;
