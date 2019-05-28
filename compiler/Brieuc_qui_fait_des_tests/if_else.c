@@ -5,7 +5,9 @@ int main() {
 	
 	if (a == b){
 		c = 2;
+		b = c;
 	} else{
 		c = 3;
 	}	
 }
+

@@ -24,3 +24,4 @@ void assem_modify_arg_instr(int index, int arg_position, int new_arg);
 void assem_display();
 void assem_write_file_instrs();
 int assem_number_instr();
+void assem_write_obj();

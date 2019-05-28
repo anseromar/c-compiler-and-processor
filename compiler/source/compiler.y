@@ -4,7 +4,7 @@
 
 	#include "./header/sym_table.h"
 	#include "./header/assem_table.h"
-
+	#include "./header/func_table.h"
 	int yylex(void);
 	void yyerror(char*s);
 
@@ -22,6 +22,7 @@
 %type <nb> Condition 
 %type <nb> Expression
 
+
 %type <nb> tNUMBER
 %type <var> tID
 %type <nb> tIF
@@ -34,13 +35,13 @@
 %nonassoc tIFX
 %nonassoc tELSE
 %%
-// Demander au R comment tester la priorité 
 
 Start :	Fonctions;
 
 Fonctions : Fonction Fonctions | Main ;
 
-Fonction : tINT tID tPAR_L { sym_incr_depth(); } Params tPAR_R ContentFonction;
+Fonction : tINT tID tPAR_L { sym_incr_depth(); func_update($2, 1, assem_number_instr());
+							 func_set_active($2);} Params tPAR_R ContentFonction { func_set_inactive();};
 
 Params : ListeParams | ;
 
@@ -50,25 +51,43 @@ Arguments : SuiteArguments | ;
 
 SuiteArguments : Expression tCOMA SuiteArguments | Expression;
 
-ContentFonction : tACC_L Declarations InstructionsFonc tACC_R { sym_decr_depth(); sym_delete_body(); } ;
+ContentFonction : tACC_L Declarations InstructionsFonc tACC_R { sym_delete_body(); sym_decr_depth(); } ;
 																					
 InstructionsFonc : InstructionFonc InstructionsFonc | InstructionFonc;
 
-InstructionFonc : Instruction | tRETURN Expression tBRK_PT ;
+InstructionFonc : Instruction | tRETURN Expression tBRK_PT { assem_add_instr_arg2("AFC",0,$2); assem_add_instr_arg2("STORE", 1000,0);  assem_add_instr_arg0("RET");} ;
 
 Instruction : Expression tBRK_PT | Print tBRK_PT | If | While; // Supprimer les variables temporaires à la fin de chaque instruction 
 
-Main : tINT tMAIN tPAR_L tPAR_R tACC_L { sym_incr_depth(); } Declarations Instructions tACC_R { sym_decr_depth(); sym_delete_body(); };
+Main : tINT tMAIN tPAR_L { func_update("main",1,assem_number_instr());} tPAR_R { func_set_inactive(); } tACC_L { sym_incr_depth(); } Declarations Instructions tACC_R { sym_delete_body(); sym_decr_depth(); };
 
 Declarations :	tCONST tINT ListeDeclarationConst tBRK_PT Declarations | tINT ListeDeclaration tBRK_PT Declarations |;
 
 ListeDeclarationConst :	DeclarationConst tCOMA ListeDeclarationConst | DeclarationConst;
 
-DeclarationConst : tID {sym_add_symbol($1,0,1);} | tID {sym_add_symbol($1, 1, 1);} tAFFECT Expression|;
+DeclarationConst : tID {
+				   sym_add_symbol($1,0,1);
+                   } 
+				 | tID tAFFECT Expression { 
+				   sym_add_symbol($1, 1, 1); 
+				   assem_add_instr_arg2("LOAD",0,sym_get_last_temporary_index()); 
+				   assem_add_instr_arg2("STORE",sym_get_index_decl($1),0);
+				   sym_delete_last_temporary(); 
+				  }
+				 |;
 
 ListeDeclaration : Declaration tCOMA ListeDeclaration | Declaration;
 
-Declaration : tID {sym_add_symbol($1,0,0);} | tID {sym_add_symbol($1,1,0);} tAFFECT Expression | tMULT tID {sym_add_symbol($2,0,0);} | tMULT tID {sym_add_symbol($2,1,0);} tAFFECT Expression | tID {sym_add_symbol($1,0,0);} tL_BRCK tNUMBER tR_BRCK ;
+Declaration : tID {sym_add_symbol($1,0,0);} 
+			| tID tAFFECT Expression {
+		  	sym_add_symbol($1,1,0); sym_add_symbol($1, 1, 1); 
+	        assem_add_instr_arg2("LOAD",0,sym_get_last_temporary_index()); 
+		    assem_add_instr_arg2("STORE",sym_get_index_decl($1),0);
+		    sym_delete_last_temporary(); 
+									 } 
+			| tMULT tID {sym_add_symbol($2,0,0);} 
+			| tMULT tID  tAFFECT Expression {sym_add_symbol($2,1,0);} 
+			| tID tL_BRCK tNUMBER tR_BRCK {sym_add_symbol($1,0,0);};
 
 
 ConditionIf : Condition { assem_add_instr_arg2("LOAD", 1,$1);
@@ -96,31 +115,34 @@ If : tIF  ConditionIf
                                                 	} ;
 
 /*PAS OPÉRATIOINNEL :	- LOAD NE FONCTIONNE PAS (MEME PB QUE POUR LE IF)
-						- INF COMPARE LE MEME REGISTRE R0 AVEC LUI-MEME (TOUJOURS FAUX)
+						- INF COMPARE LE MEME REGISTRE R0 AVEC LUI-MEME (TOUJOURS FAUX) ==> ==> 29 AVRIL : BUG RESOLU, FAIRE D'AUTRES TESTS
 						- BIEN QU'ON FASSE R0<R0 COMME TEST, ON ENTRE QUAND MEME DANS LA BOUCLE
-						- JUMP AU MAUVAIS ENDROIT, COMME SI ON EFFECTUAIT UN IF (ET NON AU DEBUT DE LA BOUCLE)
+						- JUMP AU MAUVAIS ENDROIT, COMME SI ON EFFECTUAIT UN IF (ET NON AU DEBUT DE LA BOUCLE) ==> 29 AVRIL : BUG RESOLU, FAIRE D'AUTRES TESTS
 						*/
 
-While : tWHILE Condition { /*MEME IDEE QUE POUR LE IF*/
+While : tWHILE Condition tACC_L { /*MEME IDEE QUE POUR LE IF*/
+						   $<nb>3 = assem_number_instr() - 7; 
 						   assem_add_instr_arg2("LOAD", 1, $2);
 						   assem_add_instr_arg2("JMPC", -1, 1);
                            $1 = assem_number_instr() - 1;
-						 } tACC_L Declarations Instructions {  } tACC_R 
+						 }  Declarations Instructions tACC_R 
 						 { /*RETOURNER LA lIGNE OU JUMP POUR LE WHILE : JUMP EN ARRIERE */
-						   assem_modify_arg_instr($1, 0, assem_number_instr()); };
+						   assem_add_instr_arg1("JMPC", $<nb>3);
+						   assem_modify_arg_instr($1, 0, assem_number_instr() + 1); 
+						 };
 		
 Condition: tPAR_L Expression tINF Expression tPAR_R { 
 												assem_add_instr_arg2("LOAD", 0 , $2);
 												assem_add_instr_arg2("LOAD", 1 , $4);
-												assem_add_instr_arg3("INF", 0, 1, 0);		
+												assem_add_instr_arg3("INF", 0, 0, 1);		
 												assem_add_instr_arg2("STORE", $2, 0);			
 												sym_delete_last_temporary();
-											    $$ = $2; // On récupère l'adresse où se trouve les resultat de la comparaison
+											    $$ = $2; // On récupère l'adresse où se trouve le resultat de la comparaison
 													}
 	 | tPAR_L Expression tINF tAFFECT Expression tPAR_R {
 												assem_add_instr_arg2("LOAD", 0 , $2);
 												assem_add_instr_arg2("LOAD", 1 , $5);
-												assem_add_instr_arg3("INFE", 0, 1, 0);
+												assem_add_instr_arg3("INFE", 0, 0, 1);
 												assem_add_instr_arg2("STORE", $2, 0);
 												sym_delete_last_temporary();
 											    $$ = $2;
@@ -128,7 +150,7 @@ Condition: tPAR_L Expression tINF Expression tPAR_R {
 	 | tPAR_L Expression tSUP Expression tPAR_R {
 												assem_add_instr_arg2("LOAD", 0 , $2);
 												assem_add_instr_arg2("LOAD", 1 , $4);
-												assem_add_instr_arg3("SUP", 0, 1, 0);
+												assem_add_instr_arg3("SUP", 0, 0, 1);
 												assem_add_instr_arg2("STORE", $2, 0);
 												sym_delete_last_temporary();
 											    $$ = $2;
@@ -136,7 +158,7 @@ Condition: tPAR_L Expression tINF Expression tPAR_R {
 	 | tPAR_L Expression tSUP tAFFECT Expression tPAR_R {
 												assem_add_instr_arg2("LOAD", 0 , $2);
 												assem_add_instr_arg2("LOAD", 1 , $5);
-												assem_add_instr_arg3("SUPE", 0, 1, 0);
+												assem_add_instr_arg3("SUPE", 0, 0, 1);
 												assem_add_instr_arg2("STORE", $2, 0);
 												sym_delete_last_temporary();
 											    $$ = $2;	
@@ -144,7 +166,7 @@ Condition: tPAR_L Expression tINF Expression tPAR_R {
 	 | tPAR_L Expression tEQUALS Expression tPAR_R {
 												assem_add_instr_arg2("LOAD", 0 , $2);
 												assem_add_instr_arg2("LOAD", 1 , $4);
-												assem_add_instr_arg3("EQU", 0, 1, 0);
+												assem_add_instr_arg3("EQU", 0, 0, 1);
 												assem_add_instr_arg2("STORE", $2, 0);
 												sym_delete_last_temporary();
 											    $$ = $2;
@@ -158,7 +180,7 @@ Condition: tPAR_L Expression tINF Expression tPAR_R {
 
 Instructions :	Instruction Instructions | ;
 	
-Print : tPRINT tPAR_L Expression tPAR_R;
+Print : tPRINT tPAR_L Expression tPAR_R {/*INSTRUCTION PRINT */};
 		
 
 Expression : Expression tPLUS Expression {	
@@ -167,7 +189,7 @@ Expression : Expression tPLUS Expression {
 										 assem_add_instr_arg3("ADD", 0 , 1, 0);		
 										 assem_add_instr_arg2("STORE", $1 , 0);			
 										 sym_delete_last_temporary();
-										    $$ = $1;
+										 $$ = $1;
 										}
 	| Expression tMINUS Expression  {  
 									   	assem_add_instr_arg2("LOAD", 0 , $1);
@@ -199,21 +221,26 @@ Expression : Expression tPLUS Expression {
 									printf("La variable est une constante  !! ");		
 								}else if(sym_check_const($1) == -1){
 									printf(" Elle n'existe même pas ta variable ! \n" );	
-								}	
-							   sym_set_init_id($1, 1);
- 							   
-							   $$ = sym_get_last_temporary_index();
-					
+								}else{	
+							   		sym_set_init_id($1, 1);
+									assem_add_instr_arg2("LOAD",0,$3);
+									assem_add_instr_arg2("STORE",sym_get_index_decl($1),0);
+									}				
 							 }
 	| tMULT tID tAFFECT Expression { $$ = 123; }
 	| tID tL_BRCK tNUMBER tR_BRCK tAFFECT Expression { $$ = 123; }
 	| tID { 
 			if (sym_check_init_id($1) == -1){
 				printf(" Elle n'existe même pas ta variable ! \n" );
-			}else if (sym_check_init_id($1) == 0){
+			}else
+			 if (sym_check_init_id($1) == 0){
 				printf(" La variable %s n'est pas initialisée\n",$1);
-			}
-			$$ = sym_get_last_temporary_index();
+			}else{
+			 	 sym_add_temporary(); 
+				 assem_add_instr_arg2("LOAD",0,sym_get_index_decl($1));
+				 assem_add_instr_arg2("STORE",sym_get_last_temporary_index(),0);
+			     $$ = sym_get_last_temporary_index();
+				 }
 		  }
 	| tMULT tID { $$ = 123; }
 	| tADDR tID { $$ = 123; }
@@ -233,12 +260,13 @@ int main(){
 	assem_init();
 	//fonc_init();
 	yyparse();
+	func_table_display();
 	sym_display();
 	assem_display();
 	assem_write_file_instrs();
 	//fonc_maj_appels_mem_instr();
 	//mem_ecr_instrs();
-	//mem_ecr_obj();
+	assem_write_obj();
 }
 
 

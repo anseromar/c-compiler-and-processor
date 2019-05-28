@@ -1,7 +1,7 @@
 # Plutôt :
 # gcc -o compiler y.tab.c lex.yy.c source/sym_table.c -ly -ll
 compiler: y.tab.c lex.yy.c
-	gcc -o compiler y.tab.c lex.yy.c source/sym_table.c source/assem_table.c -ly -ll
+	gcc -o compiler y.tab.c lex.yy.c source/func_table.c source/sym_table.c source/assem_table.c -ly -ll
 
 lex.yy.c: source/analyseur_lexical
 	flex source/analyseur_lexical

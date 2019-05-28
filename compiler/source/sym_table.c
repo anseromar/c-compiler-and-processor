@@ -27,7 +27,7 @@ int sym_add_symbol(char *symbol, int initialized, int constant){
 
 int sym_get_index_decl(char *symbol){
 		
-	int i, index = -1, find = 0;
+	int i = 0 , index = -1, find = 0;
 	while (i < symb_table.number_symbol && !find){
 		if(strcmp(symbol, symb_table.symbols[i].symbol) == 0 && symb_table.symbols[i].depth == symb_table.depth){
 			index = i;
@@ -42,11 +42,15 @@ int sym_get_index_decl(char *symbol){
 int sym_get_index_bloc(char *symbol){
 
 	int i = 0, index = -1, find = 0; 
+	int profMax = -1;
 
 	while (i < symb_table.number_symbol && !find ){
 		if(strcmp(symbol, symb_table.symbols[i].symbol) == 0 && symb_table.symbols[i].depth <= symb_table.depth){
+			if(symb_table.depth > profMax){			
+			profMax = symb_table.depth;		
 			index = i; 
 			find = 1;
+			}
 		}else{
 			i++;
 		}
