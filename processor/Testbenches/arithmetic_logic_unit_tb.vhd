@@ -69,7 +69,7 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin
-		-- All operations without peculiar flag or issue wait for 5*CLK_period;
+		-- All operations without peculiar flag or issue
 		
 		wait for 5*CLK_period;
 		
@@ -86,21 +86,21 @@ BEGIN
 		B <= x"01";
 		
 		wait for 5*CLK_period;
-		
+		-- TODO: renvoie 00000000 (Z)
 		-- Multiplication
 		Ctrl <= "11";
 		A <= x"06";
 		B <= x"07";
 		
 		
-		
+
 		-- Flags
-		wait for 15*CLK_period;
+		wait for 10*CLK_period;
 		
-		
+		-- TODO: renvoie 10000000 (C & O)
 		-- Z: Null output (addition)
 		Ctrl <= "01";
-		A <= x"7F";
+		A <= x"FF";
 		B <= x"01";
 		
 		wait for 5*CLK_period;
@@ -120,14 +120,14 @@ BEGIN
 		
 		wait for 10*CLK_period;
 		
-		
+		-- TODO: 01010100 (N & O)
 		-- C: Carry (addition)
 		Ctrl <= "01";
 		A <= x"7F";
 		B <= x"2A";
 		
 		wait for 5*CLK_period;
-		
+		-- TODO: vérif que c'est bien 11000000 (N)
 		-- C: Carry (substraction)
 		Ctrl <= "10";
 		A <= x"7F";
@@ -135,15 +135,14 @@ BEGIN
 		
 		
 		wait for 10*CLK_period;
-		
-		
+		-- TODO: 01110000 (N & O)
 		-- N: Negative output (addition)
 		Ctrl <= "01";
 		A <= x"01";
 		B <= x"F0";
 		
 		wait for 5*CLK_period;
-		
+		-- TODO: 11101011 (N)
 		-- N: Negative output (substraction)
 		Ctrl <= "10";
 		A <= x"01";
@@ -152,14 +151,14 @@ BEGIN
 		
 		wait for 10*CLK_period;
 		
-		
+		-- TODO: 00000000 (Z)
 		-- O: Overflow (multiplication, almost)
 		Ctrl <= "11";
 		A <= x"10";
 		B <= x"10";
 		
 		wait for 5*CLK_period;
-		
+		-- TODO: 00000000 (Z)
 		-- O: Overflow (multiplication, large)
 		Ctrl <= "11";
 		A <= x"FF";

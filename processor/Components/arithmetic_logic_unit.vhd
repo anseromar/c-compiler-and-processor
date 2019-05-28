@@ -4,11 +4,6 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
-
 entity arithmetic_logic_unit is
 	generic(N: natural := 8);
 	port(
@@ -50,10 +45,8 @@ begin
 
 
 	-- Output signal assignation
-	S_temp_bis <= S_temp_add (N downto 0)
-							when (Ctrl="01" or Ctrl="10")
-						else S_temp_mult(N downto 0)
-							when Ctrl="11"
+	S_temp_bis <= S_temp_add (N downto 0)			when (Ctrl="01" or Ctrl="10")
+						else S_temp_mult(N downto 0)	when Ctrl="11"
 						else (others=>'0');
 
 	S <= S_temp_bis;

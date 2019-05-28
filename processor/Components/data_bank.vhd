@@ -2,15 +2,6 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
-
 entity data_bank is
 	-- Na: Generic size of the addresses
 	-- N:  Generic size of the memory spaces
@@ -38,7 +29,6 @@ begin
 	process
 	begin
 		wait until CLK'event and CLK='1';
-
 		-- The priority between the different actions is as follows:
 		--   (1) reset, because reading or writing whilst resetting is useless
 		--   (2) read, to read before potentially overwriting
