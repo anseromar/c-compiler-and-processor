@@ -4,15 +4,15 @@ Copyright (c) 1995-2011 Xilinx, Inc.  All rights reserved.
 Parameter TMPDIR set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/xst/projnav.tmp
 
 
-Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.10 secs
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Parameter xsthdpdir set to /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/xst
 
 
-Total REAL time to Xst completion: 1.00 secs
-Total CPU time to Xst completion: 0.10 secs
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.08 secs
  
 --> 
 Reading design: arithmetic_logic_unit.prj
@@ -46,16 +46,17 @@ INFO:Xst - Part-select index evaluated to out of bound value may lead to incorre
 Parsing VHDL file "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/arithmetic_logic_unit.vhd" into library work
 Parsing entity <arithmetic_logic_unit>.
 Parsing architecture <Behavioral> of entity <arithmetic_logic_unit>.
-ERROR:HDLCompiler:1731 - "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/arithmetic_logic_unit.vhd" Line 47: found '0' definitions of operator "&", cannot determine exact overloaded matching definition for "&"
-ERROR:HDLCompiler:622 - "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/arithmetic_logic_unit.vhd" Line 47: Near std_logic_vector ; type conversion expression type cannot be determined uniquely
-ERROR:HDLCompiler:854 - "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/arithmetic_logic_unit.vhd" Line 30: Unit <behavioral> ignored due to previous errors.
-VHDL file /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Components/arithmetic_logic_unit.vhd ignored due to errors
+
+
+Total REAL time to Xst completion: 4.00 secs
+Total CPU time to Xst completion: 3.16 secs
+ 
 --> 
 
 
-Total memory usage is 300992 kilobytes
+Total memory usage is 300988 kilobytes
 
-Number of errors   :    3 (   0 filtered)
+Number of errors   :    0 (   0 filtered)
 Number of warnings :    0 (   0 filtered)
 Number of infos    :    1 (   0 filtered)
 
