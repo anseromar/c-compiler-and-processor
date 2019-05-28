@@ -96,7 +96,7 @@ BEGIN
 
 		wait for 10*CLK_period;
 
-
+		-- TODO: Verify the database has been erased
 		-- Reset
 		RST <= '1';
 

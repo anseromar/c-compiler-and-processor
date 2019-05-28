@@ -55,6 +55,7 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin
+		-- TODO: Ça marchait, et puis... pof ! Maaagiiie...
 		-- Test with all possible operations (from x"01" to x"08") ,as well as the padding (x"FF") and error (anything else) cases.
 		-- In normal cases, x"2A" (42) should be returned.
 

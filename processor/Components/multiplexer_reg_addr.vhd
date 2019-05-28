@@ -14,7 +14,8 @@ end multiplexer_reg_addr;
 
 architecture Behavioral of multiplexer_reg_addr is
 begin
-	Output <=	B when Op <= x"05" OR Op = x"08" else	-- When the operation needs a register address
+	Output <=	B when (Op >= x"01" AND Op <= x"05")
+							OR Op = x"08" else					-- When the operation needs a register address
 					A when Op = x"06"  OR Op = x"07" else	-- When the operation needs a memory address or a value
 					x"FF";											-- Padding/error
 end Behavioral;

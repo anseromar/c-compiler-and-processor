@@ -23,7 +23,7 @@ architecture Behavioral of instructions_bank is
 	-- Getter of all the instructions defining the program to execute
 	-- Hard-type the path in the code
 	-- TODO: Ask for the right path format
-	signal instr_b: bank := init_rom(filename => "../../compiler/source/dummy.txt");
+	signal instr_b: bank := init_rom(filename => "../../compiler/assembleur/assembly.o");
 	-- Offset (from Base_addr) of the address in which the program reads
 	signal offset: std_logic_vector(Na-1 downto 0);
 	
