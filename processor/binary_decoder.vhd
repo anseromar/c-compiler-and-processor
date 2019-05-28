@@ -33,8 +33,15 @@ begin
 	begin
 		operation <= Full_instr(4*N-1 downto 3*N);
 
+-------- TODO: SUPPR (pour test pour erreur sur <out_c> dans datapath
+		if (operation = x"00") then
+			Op <= x"06";
+			A <= Full_instr(3*N-1 downto 2*N);
+			B <= Full_instr(2*N-1 downto 1*N);
+			C <= Full_instr(1*N-1 downto 0);
+-------- FIN SUPPR
 		-- ADD, MUL, SOU, DIV
-		if (operation <= x"04") then
+		elsif (operation <= x"04") then
 			Op <= operation;
 			A <= Full_instr(3*N-1 downto 2*N);
 			B <= Full_instr(2*N-1 downto 1*N);

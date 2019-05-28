@@ -8,5 +8,20 @@
 <msg type="info" file="Xst" num="0" delta="new" >Part-select index evaluated to out of bound value may lead to incorrect synthesis results; it is recommended not to use them in RTL
 </msg>
 
+<msg type="error" file="HDLCompiler" num="432" delta="new" >"/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/datapath.vhd" Line 98: Formal &lt;<arg fmt="%s" index="1">out_c</arg>&gt; has no actual or default value.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="432" delta="new" >"/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/datapath.vhd" Line 100: Formal &lt;<arg fmt="%s" index="1">out_c</arg>&gt; has no actual or default value.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="432" delta="new" >"/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/datapath.vhd" Line 102: Formal &lt;<arg fmt="%s" index="1">out_c</arg>&gt; has no actual or default value.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="432" delta="new" >"/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/datapath.vhd" Line 104: Formal &lt;<arg fmt="%s" index="1">out_c</arg>&gt; has no actual or default value.
+</msg>
+
+<msg type="error" file="HDLCompiler" num="854" delta="new" >"/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/datapath.vhd" Line 16: Unit &lt;<arg fmt="%s" index="1">structural</arg>&gt; ignored due to previous errors.
+</msg>
+
 </messages>
 

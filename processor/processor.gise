@@ -49,6 +49,14 @@
     <file xil_pn:fileType="FILE_XST" xil_pn:name="instructions_bank.xst"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="instructions_bank_tb_stx_beh.prj"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="multiplexer.prj"/>
+    <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="multiplexer.stx"/>
+    <file xil_pn:fileType="FILE_XST" xil_pn:name="multiplexer.xst"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="multiplexer_reg_addr.prj"/>
+    <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="multiplexer_reg_addr.stx"/>
+    <file xil_pn:fileType="FILE_XST" xil_pn:name="multiplexer_reg_addr.xst"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="multiplexer_reg_addr_stx_beh.prj"/>
+    <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="multiplexer_tb_stx_beh.prj"/>
     <file xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="pipeline.prj"/>
     <file xil_pn:fileType="FILE_XST_STX" xil_pn:name="pipeline.stx"/>
     <file xil_pn:fileType="FILE_XST" xil_pn:name="pipeline.xst"/>
@@ -66,13 +74,18 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1558539414" xil_pn:in_ck="7766320475796446990" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1558539414">
+    <transform xil_pn:end_ts="1559036682" xil_pn:in_ck="3705506025407391690" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1559036682">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="InputAdded"/>
+      <status xil_pn:value="InputChanged"/>
       <outfile xil_pn:name="Components/arithmetic_logic_unit.vhd"/>
+      <outfile xil_pn:name="Components/combinatory_logic_W.vhd"/>
       <outfile xil_pn:name="Components/common.vhd"/>
       <outfile xil_pn:name="Components/data_bank.vhd"/>
       <outfile xil_pn:name="Components/instructions_bank.vhd"/>
+      <outfile xil_pn:name="Components/multiplexer_reg_addr.vhd"/>
       <outfile xil_pn:name="Components/pipeline.vhd"/>
       <outfile xil_pn:name="Components/register_file.vhd"/>
       <outfile xil_pn:name="Testbenches/arithmetic_logic_unit_tb.vhd"/>
@@ -80,18 +93,15 @@
       <outfile xil_pn:name="Testbenches/instructions_bank_tb.vhd"/>
       <outfile xil_pn:name="Testbenches/pipeline_tb.vhd"/>
       <outfile xil_pn:name="Testbenches/register_file_tb.vhd"/>
-      <outfile xil_pn:name="binary_decoder.vhd"/>
       <outfile xil_pn:name="datapath.vhd"/>
     </transform>
-    <transform xil_pn:end_ts="1557931939" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-8903694600857923711" xil_pn:start_ts="1557931939">
+    <transform xil_pn:end_ts="1559036682" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="9079992183652047957" xil_pn:start_ts="1559036682">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForProperties"/>
     </transform>
-    <transform xil_pn:end_ts="1557931939" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-5903205198904228353" xil_pn:start_ts="1557931939">
+    <transform xil_pn:end_ts="1559036682" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="-8482487266546763053" xil_pn:start_ts="1559036682">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <status xil_pn:value="OutOfDateForProperties"/>
     </transform>
     <transform xil_pn:end_ts="1557931939" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="254607711712730514" xil_pn:start_ts="1557931939">
       <status xil_pn:value="SuccessfullyRun"/>
