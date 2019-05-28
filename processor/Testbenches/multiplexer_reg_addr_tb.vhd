@@ -29,6 +29,7 @@ ARCHITECTURE behavior OF multiplexer_reg_addr_tb IS
 
  	--Outputs
    signal Output : std_logic_vector(7 downto 0); 
+	signal CLK : std_logic := '0';
    constant CLK_period : time := 10 ns;
  
 BEGIN
@@ -42,10 +43,13 @@ BEGIN
         );
 
    -- Clock process definitions
-   CLK_process :process
-   begin
-		CLK <= not CLK after CLK_period/2;
-   end process;
+	CLK_process :process
+	begin
+		CLK <= '0';
+		wait for CLK_period/2;
+		CLK <= '1';
+		wait for CLK_period/2;
+	end process;
  
 
    -- Stimulus process

@@ -47,7 +47,10 @@ BEGIN
 	-- Clock process definitions
 	CLK_process :process
 	begin
-		CLK <= not CLK after CLK_period/2;
+		CLK <= '0';
+		wait for CLK_period/2;
+		CLK <= '1';
+		wait for CLK_period/2;
 	end process;
 
 
@@ -59,7 +62,6 @@ BEGIN
 		wait for 5*CLK_period;
 
 		-- Write @ "00"
-		CLK <= CLK;
 		RW <= '1';
 		Addr <= x"00";
 		Input	<= x"2A";

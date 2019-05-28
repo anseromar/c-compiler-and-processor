@@ -57,10 +57,13 @@ BEGIN
         );
 
    -- Clock process definitions
-   CLK_process :process
-   begin
-		CLK <= not CLK after CLK_period/2;
-   end process;
+	CLK_process :process
+	begin
+		CLK <= '0';
+		wait for CLK_period/2;
+		CLK <= '1';
+		wait for CLK_period/2;
+	end process;
 
 
    -- Stimulus process

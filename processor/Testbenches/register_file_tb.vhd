@@ -59,10 +59,13 @@ BEGIN
         );
 
    -- Clock process definitions
-   CLK_process :process
-   begin
-		CLK <= not CLK after CLK_period/2;
-   end process;
+	CLK_process :process
+	begin
+		CLK <= '0';
+		wait for CLK_period/2;
+		CLK <= '1';
+		wait for CLK_period/2;
+	end process;
 
 
    -- Stimulus process
@@ -73,7 +76,6 @@ BEGIN
 		wait for 5*CLK_period;
 
 		-- Write @ "00" with B
-		CLK <= CLK;
 		W <= '1';
 		Addr_W <= x"00";
 		Data	<= x"2A";

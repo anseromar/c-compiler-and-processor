@@ -32,7 +32,7 @@ end data_bank;
 
 
 architecture Behavioral of data_bank is
-	type bank is array (Nb-1 downto 0) of std_logic_vector;
+	type bank is array (Nb-1 downto 0) of std_logic_vector(N-1 downto 0);
 	signal data_b: bank;
 begin
 	process
