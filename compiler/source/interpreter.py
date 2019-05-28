@@ -7,6 +7,7 @@ instructions_memory = [(line.rstrip('\n')).split() for line in open('../assemble
 
 print(instructions_memory)
 while instruction_pointer <= len(instructions_memory):
+	print(instruction_pointer)
 	if instructions_memory[instruction_pointer][0] == "AFC":
 		registers[int(instructions_memory[instruction_pointer][1])] = int(instructions_memory[instruction_pointer][2])
 		instruction_pointer+=1
@@ -17,10 +18,13 @@ while instruction_pointer <= len(instructions_memory):
 		datas_memory[int(instructions_memory[instruction_pointer][1])] = registers[int(instructions_memory[instruction_pointer][2])]
 		instruction_pointer+=1
 	elif instructions_memory[instruction_pointer][0] == "JMPC":
-		if(registers[int(instructions_memory[instruction_pointer][2])] == 1):
-			instruction_pointer+=1
-		else: 
-			instruction_pointer = int(instructions_memory[instruction_pointer][2])
+		if len(instructions_memory[instruction_pointer]) > 2:
+			if(registers[int(instructions_memory[instruction_pointer][2])] == 1):
+				instruction_pointer+=1
+			else: 
+				instruction_pointer = int(instructions_memory[instruction_pointer][2])
+		else:
+			instruction_pointer = int(instructions_memory[instruction_pointer][1])
 	elif instructions_memory[instruction_pointer][0] == "INF":
 		if(registers[int(instructions_memory[instruction_pointer][2])] < registers[int(instructions_memory[instruction_pointer][3])]):
 			registers[int(instructions_memory[instruction_pointer][1])] = 1 
@@ -68,9 +72,8 @@ while instruction_pointer <= len(instructions_memory):
 	elif instructions_memory[instruction_pointer][0] == "DIV":
 		registers[int(instructions_memory[instruction_pointer][1])] = registers[int(instructions_memory[instruction_pointer][2])] / registers[int(instructions_memory[instruction_pointer][3])]
 		instruction_pointer+=1
-	elif instructions_memory[instruction_pointer][0] == "JUMP":
-		instruction_pointer = instructions_memory[instruction_pointer][1]
 
+		
 print("*****************************")
 print(instructions_memory)
 print("*****************************")
