@@ -1,30 +1,3 @@
---------------------------------------------------------------------------------
--- Company:
--- Engineer:
---
--- Create Date:   16:52:21 05/15/2019
--- Design Name:
--- Module Name:   /home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/Testbenches/register_file_tb.vhd
--- Project Name:  processor
--- Target Device:
--- Tool versions:
--- Description:
---
--- VHDL Test Bench Created by ISE for module: register_file
---
--- Dependencies:
---
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
---
--- Notes:
--- This testbench has been automatically generated using types std_logic and
--- std_logic_vector for the ports of the unit under test.  Xilinx recommends
--- that these types always be used for the top-level I/O of a design in order
--- to guarantee that the testbench will bind correctly to the post-implementation
--- simulation model.
---------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
@@ -94,59 +67,59 @@ BEGIN
 
    -- Stimulus process
    stim_proc: process
-   begin
-    -- Write & read (with A & B) @0; then write @1 and read both addr (with A & B same address then separate ones); then reset.
+		begin
+			-- Write & read (with A & B) @0; then write @1 and read both addr (with A & B same address then separate ones); then reset.
 
-    wait for 5*CLK_period;
+		wait for 5*CLK_period;
 
-    -- Write @ "00" with B
-    CLK <= CLK;
-    W <= '1';
-    Addr_W <= x"00";
-    Data	<= x"2A";
+		-- Write @ "00" with B
+		CLK <= CLK;
+		W <= '1';
+		Addr_W <= x"00";
+		Data	<= x"2A";
 
-    wait for 5*CLK_period;
+		wait for 5*CLK_period;
 
-    -- Read @ "00" with A
-    W <= '0';
-    Addr_A <= x"00";
-
-    wait for 5*CLK_period;
-
-    -- Read @ "00" with B
-    W <= '0';
-    Addr_B <= x"00";
-
-
-    wait for 10*CLK_period;
-
-
-    -- Write @ "07"
-    W <= '1';
-    Addr_W <= x"07";
-    Data <= x"FF";
-
-    wait for 5*CLK_period;
-
-    -- Read @ "00"
-    W <= '0';
-    Addr_A <= x"00";
-    Addr_B <= x"00";
-
-    wait for 5*CLK_period;
-
-    -- Read @ "07"
-    W <= '0';
-    Addr_A <= x"07";
-    Addr_B <= x"00";
-
-
-    wait for 10*CLK_period;
-
-
-    -- Reset
-    RST <= '1';
-
+		-- Read @ "00" with A
+		W <= '0';
+		Addr_A <= x"00";
+		
+		wait for 5*CLK_period;
+		
+		-- Read @ "00" with B
+		W <= '0';
+		Addr_B <= x"00";
+		
+		
+		wait for 10*CLK_period;
+		
+		
+		-- Write @ "07"
+		W <= '1';
+		Addr_W <= x"07";
+		Data <= x"FF";
+		
+		wait for 5*CLK_period;
+		
+		-- Read @ "00"
+		W <= '0';
+		Addr_A <= x"00";
+		Addr_B <= x"00";
+		
+		wait for 5*CLK_period;
+		
+		-- Read @ "07"
+		W <= '0';
+		Addr_A <= x"07";
+		Addr_B <= x"00";
+		
+		
+		wait for 10*CLK_period;
+		
+		
+		-- Reset
+		RST <= '1';
+		
 		wait;
 	end process;
 

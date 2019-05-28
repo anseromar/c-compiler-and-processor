@@ -1,1 +1,0 @@
--intstyle "ise" -incremental -lib "secureip" -o "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/arithmetic_logic_unit_tb_isim_beh.exe" -prj "/home/dandin/Bureau/4_IR I/Semestre 2/Projet systeme info/c-compiler-and-processor/processor/arithmetic_logic_unit_tb_beh.prj" "work.arithmetic_logic_unit_tb" 

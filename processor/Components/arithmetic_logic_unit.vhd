@@ -52,8 +52,7 @@ begin
 	-- Output signal assignation
 	S_temp_bis <= S_temp_add (N downto 0)
 							when (Ctrl="01" or Ctrl="10")
-						else (others=>'0');
-	S_temp_bis <= S_temp_mult(N downto 0)
+						else S_temp_mult(N downto 0)
 							when Ctrl="11"
 						else (others=>'0');
 
