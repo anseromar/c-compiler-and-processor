@@ -6,7 +6,7 @@ use work.common.all;
 -- TODO: IP externe (avec incrémentation et renvoi)
 
 entity instructions_bank is
-	-- Na: Generic size of the addresses in the instruction bank
+	-- Naib: Generic size of the addresses in the instruction bank
 	-- N_instr: Generic size of the instructions (assembly operation  and its operands)
 	generic(Naib:  natural := 8 ; N_instr: natural := 32);
 	port(
