@@ -71,7 +71,6 @@ architecture Structural of datapath is
 	);
 	END COMPONENT;
 
-	-- v1
 	COMPONENT combinatory_logic_W
 	PORT(
 		Op: in std_logic_vector(N-1 downto 0);
@@ -79,7 +78,7 @@ architecture Structural of datapath is
 	);
 	END COMPONENT;
 	
-
+	-- v1
 	COMPONENT multiplexer_reg_addr
 	PORT(
 		Op, A, B: in std_logic_vector(N-1 downto 0);
@@ -101,12 +100,12 @@ architecture Structural of datapath is
 	signal back_to_RF: std_logic;
 	-- v1
 --	signal inALU_AddrA: std_logic_vector(N-1 downto 0);
---	signal outP2_B
+--	signal outP2_B: std_logic_vector(N-1 downto 0);
 
 	begin
 		-- v0: Supports AFC
 		IB:  instructions_bank	port map(CLK	,	IP		,		out_instr_bank);
-		BD:  binary_decoder	port map(Zeros(4*N-1 downto 0)		,		outBD.Op, outBD.A, outBD.B, outBD.C);
+		BD:  binary_decoder	port map(out_instr_bank		,		outBD.Op, outBD.A, outBD.B, outBD.C);
 		P1:  pipeline			port map(CLK	,	outBD.Op, outBD.A, outBD.B, outBD.C		,		inP2.Op, inP2.A, inP2.B, open);
 		RF:  register_file	port map(CLK, '0', back_to_RF	,	outP4.A(Na-1 downto 0), outP4.B, (others => '0'),	(others => '0')		,		open, open);
 		P2:	pipeline			port map(CLK	,	inP2.Op, inP2.A, inP2.B, Zeros(N-1 downto 0)		,		inP3.Op, inP3.A, inP3.B, open);
@@ -118,7 +117,7 @@ architecture Structural of datapath is
 		
 --		-- v1: Support for AFC & COP
 --		IB:  instructions_bank	port map(CLK	,	IP		,		out_instr_bank);
---		BD:  binary_decoder	port map(Zeros(4*N-1 downto 0)		,		outBD.Op, outBD.A, outBD.B, outBD.C);
+--		BD:  binary_decoder	port map(out_instr_bank		,		outBD.Op, outBD.A, outBD.B, outBD.C);
 --		P1:  pipeline			port map(CLK	,	outBD.Op, outBD.A, outBD.B, outBD.C		,		inP2.Op, inP2.A, inP2.B, open);
 --		RF:  register_file	port map(CLK, '0', back_to_RF	,	outP4.A(Na-1 downto 0), outP4.B, (others => '0'),	(others => '0')		,		open, open);
 --		P2:	pipeline			port map(CLK	,	inP2.Op, inP2.A, inP2.B, Zeros(N-1 downto 0)		,		inP3.Op, inP3.A, inP3.B, open);
@@ -127,7 +126,7 @@ architecture Structural of datapath is
 --		DB:	data_bank			port map('0', '0', '0'	,	(others => '0'), (others => '0')		,		open);
 --		P4:	pipeline			port map(CLK	,	inP4.Op, inP4.A, inP4.B, Zeros(N-1 downto 0)		,		outP4.Op, outP4.A, outP4.B, open);
 --		LCW:	combinatory_logic_W	port map(outP4.Op		,		back_to_RF);
---		MBP2:	multiplexer_reg_addr port map(inP2.Op, inALU_AddrA, outP2_B		,		inP2.B);
+--		MBP2:	multiplexer_reg_addr port map(inP2.Op, inALU_AddrA(Na-1 downto 0), outP2_B		,		inP2.B);
 		
 		-- v2: Added support for ADD, SOU & MUL
 		

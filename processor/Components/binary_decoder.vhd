@@ -29,36 +29,25 @@ architecture Behavioral of binary_decoder is
 	signal operation: std_logic_vector(N-1 downto 0);
 	
 begin
-	process
-	begin
-		operation <= Full_instr(4*N-1 downto 3*N);
-
-		-- ADD, MUL, SOU, DIV
-		if (operation <= x"04") then
-			Op <= operation;
-			A <= Full_instr(3*N-1 downto 2*N);
-			B <= Full_instr(2*N-1 downto 1*N);
-			C <= Full_instr(1*N-1 downto 0);
-		-- COP, AFC, LOAD, STORE
-		elsif (x"05" <= operation AND operation <= x"08") then
-			Op <= operation;
-			A <= Full_instr(3*N-1 downto 2*N);
-			B <= Full_instr(1*N-1 downto 0);
-			C <= x"FF";
-		-- NOPE
-		elsif (operation = x"FF") then
-			Op <= operation;
-			A <= x"FF";
-			B <= x"FF";
-			C <= x"FF";
-		-- All others: We transform the unknown instructions to NOPE.
-		else
-			Op <= x"FF";
-			A  <= x"FF";
-			B  <= x"FF";
-			C  <= x"FF";
-		end if;
-
-	end process;
-
+	operation <= Full_instr(4*N-1 downto 3*N);
+	
+	-- Takes operation when the input operation is know. Else transforms into NOPE.
+	Op	<=	operation
+				when operation <= x"08" OR operation = x"FF" else
+			x"FF";
+	-- Takes input when the operation needs a first operand (all assembly instrucitons);
+	-- else padding (NOPE & unknown operations).
+	A	<= Full_instr(3*N-1 downto 2*N)
+				when operation <= x"08" else
+			x"FF";
+	-- Takes input when the operation needs a first operand (all assembly instrucitons);
+	-- else padding (NOPE & unknown operations).
+	B	<= Full_instr(2*N-1 downto N)
+				when operation <= x"08" else
+			x"FF";
+	-- Takes input when the operation needs a first operand (ADD, MUL, SOU & DIV);
+	-- else padding (COP, AFC, LOAD, STORE, NOPE & unknown operations).
+	C	<= Full_instr(1*N-1 downto 0)
+				when operation <= x"08" else
+			x"FF";
 end Behavioral;

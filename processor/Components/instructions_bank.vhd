@@ -3,6 +3,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 use work.common.all;
 
+-- TODO: IP externe (avec incrémentation et renvoi)
+
 entity instructions_bank is
 	-- Na: Generic size of the addresses in the instruction bank
 	-- N_instr: Generic size of the instructions (assembly operation  and its operands)
