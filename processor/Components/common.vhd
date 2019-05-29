@@ -22,7 +22,7 @@ package common is
 	constant LEN_SEL: natural := 256;
 	constant LEN_INSTR: natural := 32;
 
-	type instrArray is array(0 to 2**LEN_SEL-1) of std_logic_vector(LEN_INSTR-1 downto 0);
+	type instrArray is array(0 to LEN_SEL-1) of std_logic_vector(LEN_INSTR-1 downto 0);
 
 	-- the "impure" keyword is important, in VHDL, functions by default are "pure" meaning that
 	-- the result is computed using only the function parameters

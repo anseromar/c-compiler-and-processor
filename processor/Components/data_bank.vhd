@@ -6,7 +6,7 @@ entity data_bank is
 	-- Na: Generic size of the addresses
 	-- N:  Generic size of the memory spaces
 	-- Nb: Generic size of the bank
-	generic(Na:  natural := 8 ; N: natural := 8 ; Nb: natural := 256);
+	generic(Na:  natural := 4 ; N: natural := 8 ; Nb: natural := 256);
 	port(
 		-- CLK: Clock event
 		-- RST: '1' to reset all registers
