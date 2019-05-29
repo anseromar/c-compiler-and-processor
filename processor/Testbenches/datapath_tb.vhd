@@ -50,13 +50,13 @@ BEGIN
 
    -- Stimulus process
    stim_proc: process
-   begin		
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
-
-      wait for CLK_period*10;
-
-      -- insert stimulus here
+   begin
+		
+		-- Test with default values
+		wait for 5*CLK_period;
+		
+		-- Reset IP
+		IP <= x"00";
 
       wait;
    end process;

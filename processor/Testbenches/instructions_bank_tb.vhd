@@ -11,7 +11,7 @@ ARCHITECTURE behavior OF instructions_bank_tb IS
     COMPONENT instructions_bank
     PORT(
          CLK : IN  std_logic;
-         Base_addr : IN  std_logic_vector(7 downto 0);
+         Addr : IN  std_logic_vector(7 downto 0);
          Output : OUT  std_logic_vector(31 downto 0)
         );
     END COMPONENT;
@@ -19,7 +19,7 @@ ARCHITECTURE behavior OF instructions_bank_tb IS
 
    --Inputs
    signal CLK : std_logic := '0';
-   signal Base_addr : std_logic_vector(7 downto 0) := (others => '0');
+   signal Addr : std_logic_vector(7 downto 0) := (others => '0');
 
  	--Outputs
    signal Output : std_logic_vector(31 downto 0);
@@ -32,7 +32,7 @@ BEGIN
 	-- Instantiate the Unit Under Test (UUT)
    uut: instructions_bank PORT MAP (
           CLK => CLK,
-          Base_addr => Base_addr,
+          Addr => Addr,
           Output => Output
         );
 
