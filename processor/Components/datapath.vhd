@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity datapath is
+entity datapath is	-- TODO: Separate N for memory address size and for memory/register space
 	-- Na: Generic size of an address
 	-- Naib: Generic size of the addresses in the instruction bank
 	-- N: Generic size of the memory/register spaces
@@ -94,6 +94,22 @@ architecture Structural of datapath is
 		Output: out std_logic_vector(N-1 downto 0)
 	);
 	END COMPONENT;
+	
+	-- V2
+	COMPONENT combinatory_logic_Ctrl_ALU
+	PORT(
+		Op: in std_logic_vector(N-1 downto 0);
+		Ctrl_ALU: out std_logic_vector(1 downto 0)
+	);
+	END COMPONENT;
+	
+	COMPONENT multiplexer_UAL
+	PORT(
+		Op, A, B: in std_logic_vector(N-1 downto 0);
+		Output: out std_logic_vector(N-1 downto 0)
+	);
+	END COMPONENT;
+	
 
 
 
@@ -119,7 +135,7 @@ architecture Structural of datapath is
 	signal outRF_A: std_logic_vector(N-1 downto 0);
 
 	begin
---		-- v0: Supports AFC
+		-- v0: Supports AFC
 --		IP:	instruction_pointer	port map(CLK, reset_base_addr,
 --														base_addr,
 --																				current_addr,
@@ -149,7 +165,7 @@ architecture Structural of datapath is
 --		P4:	pipeline				port map(CLK,
 --													inP4.Op, inP4.A, inP4.B, Zeros(N-1 downto 0),
 --																				outP4.Op, outP4.A, outP4.B, open);
---		LCW:	combinatory_logic_W	port map(outP4.Op,
+--		CLW:	combinatory_logic_W	port map(outP4.Op,
 --																				inRF_W);
 		
 		-- v1: Support for AFC & COP
@@ -185,13 +201,15 @@ architecture Structural of datapath is
 		P4:	pipeline				port map(CLK,
 													inP4.Op, inP4.A, inP4.B, Zeros(N-1 downto 0),
 																				outP4.Op, outP4.A, outP4.B, open);
-		LCW:	combinatory_logic_W	port map(outP4.Op,
+		CL_W:	combinatory_logic_W	port map(outP4.Op,
 																				inRF_W);
-		MBP2:	multiplexer_reg_addr port map(inP2.Op, inRF_AddrA, outRF_A,
+		MPP2:	multiplexer_reg_addr port map(inP2.Op, inRF_AddrA, outRF_A,
 																				inP2.B);
 		
 		-- v2: Added support for ADD, SOU & MUL
-		
+--		-- all the rest
+--		CL_Ctrl:	combinatory_logic_Ctrl_ALU
+--		MPP3:	multiplexer_UAL
 		
 		-- v3: Added support for LOAD
 		

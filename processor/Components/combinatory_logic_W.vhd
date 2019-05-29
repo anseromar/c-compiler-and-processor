@@ -17,4 +17,3 @@ begin
 	-- The flag is set to '1' (write) when the input is AFC
 	Flag_W <= '1' when Op = x"06";
 end Behavioral;
-

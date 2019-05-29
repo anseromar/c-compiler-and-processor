@@ -5,7 +5,7 @@ entity combinatory_logic_Ctrl_ALU is
 	-- N:  Generic size of an assembly operation and of each of its parameters
 	generic(N: natural := 8);
 	port(
-		-- Address of the memory space to start reading into
+		-- Assembly operation
 		Op: in std_logic_vector(N-1 downto 0);
 		-- Output
 		Ctrl_ALU: out std_logic_vector(1 downto 0)
@@ -14,6 +14,8 @@ end combinatory_logic_Ctrl_ALU;
 
 architecture Behavioral of combinatory_logic_Ctrl_ALU is
 begin
-	-- The flag is set to '1' (write) when the input is AFC
-	Flag_W <= '1' when Op = x"06";
+	Ctrl_ALU <=	"01" when Op = x"01"		-- ADD
+			else	"10" when Op = x"03"		-- SOU
+			else	"11" when Op = x"02"		-- MUL
+			else	"00";							-- Error
 end Behavioral;
