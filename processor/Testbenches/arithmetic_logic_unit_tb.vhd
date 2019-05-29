@@ -71,22 +71,22 @@ BEGIN
    begin
 		-- All operations without peculiar flag or issue
 		
-		wait for 5*CLK_period;
+		wait for 5*CLK_period; --> 1
 		
 		-- Addition
 		Ctrl <= "01";
 		A	<= x"29";
 		B	<= x"01";
 		
-		wait for 5*CLK_period;
+		wait for 5*CLK_period; --> 2
 		
 		-- Substraction
 		Ctrl <= "10";
 		A <= x"2B";
 		B <= x"01";
 		
-		wait for 5*CLK_period;
-		-- TODO: renvoie 00000000 (Z)
+		wait for 5*CLK_period; --> 3
+		
 		-- Multiplication
 		Ctrl <= "11";
 		A <= x"06";
@@ -95,22 +95,21 @@ BEGIN
 		
 
 		-- Flags
-		wait for 10*CLK_period;
-		
+		wait for 10*CLK_period; --> 4
 		-- TODO: renvoie 10000000 (C & O)
 		-- Z: Null output (addition)
 		Ctrl <= "01";
 		A <= x"FF";
 		B <= x"01";
 		
-		wait for 5*CLK_period;
+		wait for 5*CLK_period; --> 5
 		
 		-- Z: Null output (substraction)
 		Ctrl <= "10";
 		A <= x"2A";
 		B <= x"2A";
 		
-		wait for 5*CLK_period;
+		wait for 5*CLK_period; --> 6
 		
 		-- Z: Null output (multiplication)
 		Ctrl <= "11";
@@ -118,30 +117,30 @@ BEGIN
 		B <= x"00";
 		
 		
-		wait for 10*CLK_period;
+		wait for 10*CLK_period; --> 7
 		
-		-- TODO: 01010100 (N & O)
+		-- TODO: Overflow flag
 		-- C: Carry (addition)
 		Ctrl <= "01";
 		A <= x"7F";
 		B <= x"2A";
 		
-		wait for 5*CLK_period;
-		-- TODO: vérif que c'est bien 11000000 (N)
+		wait for 5*CLK_period; --> 8
+	
 		-- C: Carry (substraction)
 		Ctrl <= "10";
 		A <= x"7F";
 		B <= x"FF";
 		
 		
-		wait for 10*CLK_period;
+		wait for 10*CLK_period; --> 9
 		-- TODO: 01110000 (N & O)
 		-- N: Negative output (addition)
 		Ctrl <= "01";
 		A <= x"01";
 		B <= x"F0";
 		
-		wait for 5*CLK_period;
+		wait for 5*CLK_period; --> 10
 		-- TODO: 11101011 (N)
 		-- N: Negative output (substraction)
 		Ctrl <= "10";
@@ -149,7 +148,7 @@ BEGIN
 		B <= x"2B";
 		
 		
-		wait for 10*CLK_period;
+		wait for 10*CLK_period; --> 11
 		
 		-- TODO: 00000000 (Z)
 		-- O: Overflow (multiplication, almost)
@@ -157,7 +156,7 @@ BEGIN
 		A <= x"10";
 		B <= x"10";
 		
-		wait for 5*CLK_period;
+		wait for 5*CLK_period; --> 12
 		-- TODO: 00000000 (Z)
 		-- O: Overflow (multiplication, large)
 		Ctrl <= "11";

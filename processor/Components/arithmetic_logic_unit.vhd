@@ -1,7 +1,7 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
--- use IEEE.STD_LOGIC_ARITH.ALL;
--- use IEEE.STD_LOGIC_UNSIGNED.ALL;
+ use IEEE.STD_LOGIC_ARITH.ALL;
+ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity arithmetic_logic_unit is
@@ -34,19 +34,21 @@ begin
 
 	-- Temporary signals assignation (signed)
 	S_temp_add <= --Addition or substraction
-					std_logic_vector(("0"&signed(A)) + ("0"&signed(B)))							when Ctrl="01"
-					else std_logic_vector(("0"&signed(A)) - ("0"&signed(B)))						when Ctrl="10"
+					--std_logic_vector(("0"&signed(A)) + ("0"&signed(B)))							when Ctrl="01"
+					--else std_logic_vector(("0"&signed(A)) - ("0"&signed(B)))						when Ctrl="10"
+					("0"&A) + ("0"&B)							when Ctrl="01"
+					else ("0"&A) - ("0"&B)						when Ctrl="10"
 					else (others=>'0');
 
 	S_temp_mult <=	-- Multiplication (unsigned)
-					std_logic_vector( unsigned(Zero(N-1 downto 0) & A)
-													* unsigned(Zero(N-1 downto 0) & B) )	when Ctrl="11"
-					else (others=>'0');
+					--std_logic_vector( unsigned(Zero(N-1 downto 0) & A)
+					--								* unsigned(Zero(N-1 downto 0) & B) )	when Ctrl="11"
+					A * B;
 
 
 	-- Output signal assignation
-	S_temp_bis <= S_temp_add (N downto 0)			when (Ctrl="01" or Ctrl="10")
-						else S_temp_mult(N downto 0)	when Ctrl="11"
+	S_temp_bis <= S_temp_add (N-1 downto 0)			when (Ctrl="01" or Ctrl="10")
+						else S_temp_mult(N-1 downto 0)	when Ctrl="11"
 						else (others=>'0');
 
 	S <= S_temp_bis;
