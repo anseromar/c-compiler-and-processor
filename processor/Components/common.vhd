@@ -20,7 +20,7 @@ package common is
 	-- store an instruction, so you will have to adjust LEN_INSTR
 	-- change the size of the bus according to the size of your instruction
 	constant LEN_SEL: natural := 256;
-	constant LEN_INSTR: natural := 32;
+	constant LEN_INSTR: natural := 64;
 
 	type instrArray is array(0 to LEN_SEL-1) of std_logic_vector(LEN_INSTR-1 downto 0);
 

@@ -3,21 +3,21 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity register_file is
-	-- Na:  Generic size of the addresses
-	-- N: Generic size of the registers
-	-- Nr:  Number of registers
-	generic(Na:  natural := 4 ; N: natural := 8 ; Nr: natural := 16);
+	-- Na:	Generic size of the memory addresses
+	-- N:		Generic size of the registers
+	-- Nr:	Number of registers
+	generic(Na:  natural := 32 ; N: natural := 16 ; Nr: natural := 16);
 	port(
 		-- CLK: Clock event
 		-- RST: '1' to reset all registers
 		-- W: '1' to write in the register at Addr_W
 		CLK, RST, W: in std_logic;
 		-- Address of the registers to write into
-		Addr_W: in std_logic_vector(Na-1 downto 0);
+		Addr_W: in std_logic_vector(Nr-1 downto 0);
 		-- Data to write
 		Data: in std_logic_vector(N-1 downto 0);
 		-- Address of the registers to read from
-		Addr_A, Addr_B: in std_logic_vector(Na-1 downto 0);
+		Addr_A, Addr_B: in std_logic_vector(Nr-1 downto 0);
 		-- Output: content of the two registers if W='0'
 		QA, QB: out std_logic_vector(N-1 downto 0)
 	);

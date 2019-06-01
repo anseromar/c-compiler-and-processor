@@ -5,8 +5,8 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity instruction_pointer is
-	-- Naib: Generic size of the addresses in the instruction bank
-	generic(Naib:  natural := 8);
+	-- Naib:	Generic size of the addresses in the instruction bank
+	generic(Naib:  natural := 16);
 	port(
 		-- Clock, reset to Base_addr (in case of a jump)
 		CLK, Reset_base_addr: in std_logic;

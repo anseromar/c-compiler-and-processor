@@ -5,7 +5,8 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity arithmetic_logic_unit is
-	generic(N: natural := 8);
+	-- N:		Generic size of an assembly operation and of each of its parameters
+	generic(N: natural := 16);
 	port(
 		-- Ctrl commands which operation is to be executed.
 		Ctrl: in std_logic_vector(1 downto 0);
@@ -34,16 +35,15 @@ begin
 
 	-- Temporary signals assignation (signed)
 	S_temp_add <= --Addition or substraction
-					--std_logic_vector(("0"&signed(A)) + ("0"&signed(B)))							when Ctrl="01"
-					--else std_logic_vector(("0"&signed(A)) - ("0"&signed(B)))						when Ctrl="10"
-					("0"&A) + ("0"&B)							when Ctrl="01"
-					else ("0"&A) - ("0"&B)						when Ctrl="10"
-					else (others=>'0');
+						("0"&A) + ("0"&B)		when Ctrl="01"
+				else	("0"&A) - ("0"&B)		when Ctrl="10"
+				else	(others=>'0');
 
 	S_temp_mult <=	-- Multiplication (unsigned)
 					--std_logic_vector( unsigned(Zero(N-1 downto 0) & A)
 					--								* unsigned(Zero(N-1 downto 0) & B) )	when Ctrl="11"
-					A * B;
+						A * B						when Ctrl="11"
+				else	(others=>'0');
 
 
 	-- Output signal assignation

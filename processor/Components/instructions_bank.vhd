@@ -6,9 +6,9 @@ use work.common.all;
 -- TODO: IP externe (avec incrémentation et renvoi)
 
 entity instructions_bank is
-	-- Naib: Generic size of the addresses in the instruction bank
-	-- N_instr: Generic size of the instructions (assembly operation  and its operands)
-	generic(Naib:  natural := 8 ; N_instr: natural := 32);
+	-- Naib:		Generic size of the addresses in the instruction bank
+	-- N_instr:	Generic size of the instructions (assembly operation  and its operands)
+	generic(Naib:  natural := 16 ; N_instr: natural := 64);
 	port(
 		-- Clock flag
 		CLK: in std_logic;

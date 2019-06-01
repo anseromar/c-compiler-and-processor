@@ -2,8 +2,8 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity pipeline is
-	-- N:  Generic size of an assembly operation and of each of its parameters
-	generic(N: natural := 8);
+	-- N:		Generic size of an assembly operation and of each of its parameters
+	generic(N: natural := 16);
 	port(
 		-- Clock flag
 		CLK: in std_logic;
