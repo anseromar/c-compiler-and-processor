@@ -23,8 +23,12 @@ end instructions_bank;
 
 architecture Behavioral of instructions_bank is
 	-- Getter of all the instructions defining the program to execute
-	-- Hard-type the path in the code : 16#000600000001FFFF0008FFFF0000FFFF00070000FFFFFFFF#
-	signal instr_b: instrArray := init_rom(filename => "../../compiler/assembler/assembly.o");
+	signal instr_b: instrArray; --:= init_rom(filename => "../../compiler/assembler/assembly.o");
+	
+	-- Omar, c'est pour toi ! Si tu peux coder en dur (comme ci-dessous) une dizaine (11 pour être sûrs) d'instructions assembleur selon ce format (décrit dans binary_decoder.vhd), ça serait super. :)
+--	instr_b(0) <= 16#000600000001FFFF#;
+--	instr_b(1) <= 16#0008FFFF0000FFFF#;
+--	instr_b(2) <= 16#00070000FFFFFFFF#;
 	
 	begin
 		instr_b <= (others=>(others=>'0')) when in_RST = '1';
