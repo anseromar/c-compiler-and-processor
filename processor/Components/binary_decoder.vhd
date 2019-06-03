@@ -47,17 +47,17 @@ begin
 																-- Padding and reset of the entire processor
 															OR	operation = x"FFFF" OR operation = x"0000"
 		else	x"FFFF";
-	-- Takes input when the operation needs a first operand (all assembly instructions); else padding (NOPE & unknown operations).
+	-- Takes input when the operation needs a first operand (all assembly instructions); else padding (JMP, NOPE unknown operations).
 	A	<=		Full_instr(3*N-1 downto 2*N)	when operation <= x"0008"
 		else	x"0000" when operation = x"0000"
 		else	x"FFFF";
-	-- Takes input when the operation needs a second operand (all assembly instructions); else padding (NOPE & unknown operations).
+	-- Takes input when the operation needs a second operand (all assembly instructions); else padding (JMP, NOPE & unknown operations).
 	B	<=		Full_instr(2*N-1 downto N)		when operation <= x"0007"
 		-- STORE is saved as <STORE @i(1&2) Rj> by the compiler. Here is part of its translation to <STORE @i1 Rj @i2> (second and last modification in the first ELSE of the C assignement below).
 		else	Full_instr(N-1 downto 0)		when operation = x"0008"
 		else	x"0000" when operation = x"0000"
 		else	x"FFFF";
-	-- Takes input when the operation needs a third operand (ADD, MUL, SOU, DIV & STORE); else padding (COP, AFC, LOAD, JMP NOPE & unknown operations).
+	-- Takes input when the operation needs a third operand (ADD, MUL, SOU, DIV & STORE); else padding (COP, AFC, LOAD, JMP, NOPE & unknown operations).
 	C	<=		Full_instr(N-1 downto 0)		when operation <= x"0007"
 		else	Full_instr(2*N-1 downto N)		when operation = x"0008"
 		else	x"0000"								when operation = x"0000"
