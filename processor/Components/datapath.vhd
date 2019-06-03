@@ -288,11 +288,11 @@ architecture Structural of datapath is
 										port map(CLK, inRF_reset, inRF_W,
 													outP4.A(Nr-1 downto 0), outP4.B,
 													inRF_AddrA(Nr-1 downto 0), (others => '0'),
-																				outRF_A, open);
+																				outRF_A, inP2.B);
 		P2:	pipeline				generic map(N => N)
 										port map(CLK,
-													inP2.Op, inP2.A, inP2.B, Zeros(N-1 downto 0),
-																				inP3.Op, inALU_A, inALU_B, open);
+													inP2.Op, inP2.A, inP2.B, inP2.B,
+																				inP3.Op, inP3.A, inALU_A, inALU_B);
 		ALU:	arithmetic_logic_unit	generic map(N => N)
 										port map(inALU_Ctrl, inALU_A, inALU_B,
 																				outALU_S,

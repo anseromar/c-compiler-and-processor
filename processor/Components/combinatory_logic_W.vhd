@@ -15,7 +15,8 @@ end combinatory_logic_W;
 architecture Behavioral of combinatory_logic_W is
 begin
 	-- Reset if '1'
-	out_RST <= '1' when Op = x"0000";
+	out_RST <=	'1' when Op = x"0000"
+			else	'0';
 	-- The flag is set to '1' (write) when the input is AFC
 	Flag_W <= '1' when Op = x"0006";
 end Behavioral;
