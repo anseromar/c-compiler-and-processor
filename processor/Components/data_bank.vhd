@@ -13,7 +13,7 @@ entity data_bank is
 		-- RW: '1' to write & '0' to read in the memory at Addr
 		CLK, RST, RW: in std_logic;
 		-- Address of the memory space to read/write into
-		Addr: in std_logic_vector(Na-1 downto 0);
+		Addr_part1, Addr_part2: in std_logic_vector(N-1 downto 0);
 		-- Content to write
 		Input: in std_logic_vector(N-1 downto 0);
 		-- Output
@@ -25,6 +25,7 @@ end data_bank;
 architecture Behavioral of data_bank is
 	type bank is array (Nb-1 downto 0) of std_logic_vector(N-1 downto 0);
 	signal data_b: bank;
+	signal Addr: std_logic_vector(Na-1 downto 0) := Addr_part1 & Addr_part2;
 begin
 	process
 	begin
