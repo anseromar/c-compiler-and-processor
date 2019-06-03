@@ -43,7 +43,9 @@ architecture Structural of datapath is
 	GENERIC(N: natural);
 	PORT(
 		Full_instr: in  std_logic_vector(4*N-1 downto 0);
-		Op, A, B, C: out std_logic_vector(N-1 downto 0)
+		Op, A, B, C: out std_logic_vector(N-1 downto 0);
+		Reset_base_addr: out std_logic;
+		Base_addr: out std_logic_vector(Naib-1 downto 0)
 	);
 	END COMPONENT;
 
@@ -271,9 +273,11 @@ architecture Structural of datapath is
 										port map(CLK, outIP_reset,
 													current_addr,
 																				out_instr_bank);
-		BD:	binary_decoder		generic map(N => N)
+		BD:	binary_decoder		generic map(N => N,
+														Naib => Naib)
 										port map(out_instr_bank,
-																				outBD.Op, outBD.A, outBD.B, outBD.C);
+																				outBD.Op, outBD.A, outBD.B, outBD.C,
+																				reset_base_addr, base_addr);
 		P1:	pipeline				generic map(N => N)
 										port map(CLK,
 													outBD.Op, outBD.A, outBD.B, outBD.C,

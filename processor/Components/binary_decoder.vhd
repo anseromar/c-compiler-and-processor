@@ -16,17 +16,23 @@ use IEEE.NUMERIC_STD.ALL;
 --x"0006"	AFC	Ri		j		_
 --x"0007"	LOAD	Ri		@j		_
 --x"0008"	STORE	@i1	Rj 	@i2		-- Output of compiler: <STORE @i(1&2) Rj>. The decoder translates it to <STORE @i1 Rj @i2>.
---x"0009"	JMP	@i1	@i2	_
+--x"0009"	JMP	@i		_		_
 
 
 entity binary_decoder is
 	-- N:		Generic size of the assembly instructions and of their parameters
-	generic (N: natural := 16);
+	-- Naib:	Generic size of the addresses in the instruction bank
+	generic (N: natural := 16 ; Naib:  natural := 16);
    Port (
 	-- Input: full instruction containing the operation and all its operand
 	Full_instr: in  std_logic_vector(4*N-1 downto 0);
 	-- Output: disjoint assembly operation and operands
-	Op, A, B, C: out std_logic_vector(N-1 downto 0)
+	Op, A, B, C: out std_logic_vector(N-1 downto 0);
+	-- Reset to Base_addr (in case of a jump)
+	-- Reset if '1'
+	Reset_base_addr: out std_logic;
+	-- Address of the memory space to start reading into
+	Base_addr: out std_logic_vector(Naib-1 downto 0)
 	);
 end binary_decoder;
 
@@ -56,4 +62,9 @@ begin
 		else	Full_instr(2*N-1 downto N)		when operation = x"0008"
 		else	x"0000"								when operation = x"0000"
 		else	x"FFFF";
+	-- JMP case: send instruction to reset base address to the instruction pointer
+	Reset_base_addr	<=	'1'					when x"0009"
+						else	'0';
+	Base_addr	<=	Full_instr(3*N-1 downto 2*N)	when operation = x"0000"
+				else	x"0000";
 end Behavioral;
