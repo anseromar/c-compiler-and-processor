@@ -14,7 +14,7 @@ end multiplexer_reg_addr;
 
 architecture Behavioral of multiplexer_reg_addr is
 begin
-	Output <=	A when (Op >= x"0001" AND Op <= x"0003") OR Op = x"0008"		-- When the operation needs a register address
-			else	A when (Op >= x"0005" AND Op <= x"0009") OR Op = x"FFFF"		-- Else
-			else	x"FFFF";		-- Padding/reset/error
+	Output <=	B when (Op >= x"0001" AND Op <= x"0003") OR Op = x"0008"		-- Use output of the register file
+			else	A when (Op >= x"0005" AND Op <= x"0009") OR Op = x"FFFF"		-- Bypass the register file
+			else	x"FFFF";		-- Jump/reset/error
 end Behavioral;

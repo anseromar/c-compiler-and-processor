@@ -16,5 +16,5 @@ architecture Behavioral of multiplexer_DB_out is
 begin
 	Output <=	B when Op = x"0006"														-- Use output of the data bank
 			else	A when (Op >= x"0001" AND Op <= x"0009")  OR Op = x"FFFF"	-- Bypass the data bank
-			else	x"FFFF";		-- Padding/jump/reset/error
+			else	x"FFFF";		-- Jump/reset/error
 end Behavioral;
