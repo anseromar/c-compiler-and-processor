@@ -53,10 +53,17 @@ BEGIN
    begin
 		
 		-- Test with default values
-		wait for 5*CLK_period;
+		wait for 10*CLK_period;
 		
 		-- Reset IP
-		IP <= x"00";
+		IP <= x"0000";
+		
+		wait for 5*CLK_period;
+		
+		-- Full reset of the entire processor
+		RST <= '1';
+		
+		wait for 5*CLK_period;
 
       wait;
    end process;

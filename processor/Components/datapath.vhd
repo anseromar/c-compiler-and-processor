@@ -40,7 +40,7 @@ architecture Structural of datapath is
 	END COMPONENT;
 
 	COMPONENT binary_decoder
-	GENERIC(N: natural);
+	GENERIC(N: natural ; Naib: natural);
 	PORT(
 		Full_instr: in  std_logic_vector(4*N-1 downto 0);
 		Op, A, B, C: out std_logic_vector(N-1 downto 0);

@@ -63,7 +63,7 @@ begin
 		else	x"0000"								when operation = x"0000"
 		else	x"FFFF";
 	-- JMP case: send instruction to reset base address to the instruction pointer
-	Reset_base_addr	<=	'1'					when x"0009"
+	Reset_base_addr	<=	'1'					when operation = x"0009"
 						else	'0';
 	Base_addr	<=	Full_instr(3*N-1 downto 2*N)	when operation = x"0000"
 				else	x"0000";
