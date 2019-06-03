@@ -23,17 +23,17 @@ architecture Structural of datapath is
 	COMPONENT instruction_pointer
 	GENERIC(Naib: natural);
 	PORT(
-		CLK, Reset_base_addr: in std_logic;
+		CLK, in_RST, Reset_base_addr: in std_logic;
 		Base_addr: in std_logic_vector(Naib-1 downto 0);
 		Output: out std_logic_vector(Naib-1 downto 0);
-		flag_O: out std_logic
+		flag_O, out_RST: out std_logic
 	);
 	END COMPONENT;
 	
 	COMPONENT instructions_bank
 	GENERIC(Naib:  natural; N_instr: natural);
 	PORT(
-		CLK: in std_logic;
+		CLK, in_RST: in std_logic;
 		Addr: in std_logic_vector(N-1 downto 0);
 		Output: out std_logic_vector(4*N-1 downto 0)
 	);
@@ -93,7 +93,7 @@ architecture Structural of datapath is
 	GENERIC(N: natural);
 	PORT(
 		Op: in std_logic_vector(N-1 downto 0);
-		Flag_W: out std_logic
+		out_RST, Flag_W: out std_logic
 	);
 	END COMPONENT;
 	
@@ -141,22 +141,30 @@ architecture Structural of datapath is
 	signal out_instr_bank:	std_logic_vector(4*N-1 downto 0);			-- Full undecoded assembly instruction
 	signal outBD, inP2, inP3, inP4, outP4: instruction;					-- Decoded assembly instructions
 	-- Register file flags
-	signal inRF_W:		std_logic;		-- Write flag
+	signal outIP_reset:		std_logic;		-- Reset flag for the instructions bank
+	signal inRF_reset:		std_logic;		-- Reset flag for the register file
+	signal inRF_W:				std_logic;		-- Write flag for the register file
 	
 	-- Additions for v1
 	signal inRF_AddrA: std_logic_vector(N-1 downto 0);
 	signal outRF_A: std_logic_vector(N-1 downto 0);
+	
+	-- Additions for v2
+	signal inALU_Ctrl: std_logic_vector(1 downto 0);
+	signal inALU_A: std_logic_vector(N-1 downto 0);
+	signal inALU_B: std_logic_vector(N-1 downto 0);
+	signal outALU_S: std_logic_vector(N-1 downto 0);
 
 	begin
 		-- v0: Supports AFC
 --		IP:	instruction_pointer	generic map(Naib => Naib)
---											port map(CLK, reset_base_addr,
+--											port map(CLK, RST, reset_base_addr,
 --														base_addr,
 --																				current_addr,
---																				open);
+--																				open, outIP_reset);
 --		IB: 	instructions_bank	generic map(Naib => Naib,
 --														N_instr => 4*N)
---										port map(CLK,
+--										port map(CLK, outIP_reset,
 --													current_addr,
 --																				out_instr_bank);
 --		BD:	binary_decoder		generic map(N => N)
@@ -169,8 +177,8 @@ architecture Structural of datapath is
 --		RF:	register_file		generic map(Na => Na,
 --														N => N,
 --														Nr => N)
---										port map(CLK, '0', inRF_W,
---													outP4.A(Na-1 downto 0), outP4.B, (others => '0'), (others => '0'),
+--										port map(CLK, inRF_reset, inRF_W,
+--													outP4.A(Nr-1 downto 0), outP4.B, (others => '0'), (others => '0'),
 --																				open, open);
 --		P2:	pipeline				generic map(N => N)
 --										port map(CLK,
@@ -178,7 +186,8 @@ architecture Structural of datapath is
 --																				inP3.Op, inP3.A, inP3.B, open);
 --		ALU:	arithmetic_logic_unit	generic map(N => N)
 --										port map((others => '0'), (others => '0'), (others => '0'),
---																				open	,	open, open, open, open);
+--																				open,
+--																				open, open, open, open);
 --		P3:	pipeline				generic map(N => N)
 --										port map(CLK,
 --													inP3.Op, inP3.A, inP3.B, Zeros(N-1 downto 0),
@@ -195,17 +204,71 @@ architecture Structural of datapath is
 --																				outP4.Op, outP4.A, outP4.B, open);
 --		CLW:	combinatory_logic_W	generic map(N => N)
 --										port map(outP4.Op,
---																				inRF_W);
+--																				inRF_reset, inRF_W);
 		
 		-- v1: Support for AFC & COP
+--		IP:	instruction_pointer	generic map(Naib => Naib)
+--											port map(CLK, RST, reset_base_addr,
+--														base_addr,
+--																				current_addr,
+--																				open, outIP_reset);
+--		IB: 	instructions_bank	generic map(Naib => Naib,
+--														N_instr => 4*N)
+--										port map(CLK, outIP_reset,
+--													current_addr,
+--																				out_instr_bank);
+--		BD:	binary_decoder		generic map(N => N)
+--										port map(out_instr_bank,
+--																				outBD.Op, outBD.A, outBD.B, outBD.C);
+--		P1:	pipeline				generic map(N => N)
+--										port map(CLK,
+--													outBD.Op, outBD.A, outBD.B, outBD.C,
+--																				inP2.Op, inP2.A, inRF_AddrA, open);
+--		RF:	register_file		generic map(Na => Na,
+--														N => N,
+--														Nr => N)
+--										port map(CLK, inRF_reset, inRF_W,
+--													outP4.A(Nr-1 downto 0), outP4.B,
+--													inRF_AddrA(Nr-1 downto 0), (others => '0'),
+--																				outRF_A, open);
+--		P2:	pipeline				generic map(N => N)
+--										port map(CLK,
+--													inP2.Op, inP2.A, inP2.B, Zeros(N-1 downto 0),
+--																				inP3.Op, inP3.A, inP3.B, open);
+--		ALU:	arithmetic_logic_unit	generic map(N => N)
+--										port map((others => '0'), (others => '0'), (others => '0'),
+--																				open,
+--																				open, open, open, open);
+--		P3:	pipeline				generic map(N => N)
+--										port map(CLK,
+--													inP3.Op, inP3.A, inP3.B, Zeros(N-1 downto 0),
+--																				inP4.Op, inP4.A, inP4.B, open);
+--		DB:	data_bank			generic map(Na => Na,
+--														N => N,
+--														Nb => Nb)
+--										port map('0', '0', '0',
+--													(others => '0'), (others => '0'),
+--																				open);
+--		P4:	pipeline				generic map(N => N)
+--										port map(CLK,
+--													inP4.Op, inP4.A, inP4.B, Zeros(N-1 downto 0),
+--																				outP4.Op, outP4.A, outP4.B, open);
+--		CL_W:	combinatory_logic_W	generic map(N => N)
+--										port map(outP4.Op,
+--																				inRF_reset, inRF_W);
+--		MPP2:	multiplexer_reg_addr generic map(N => N)
+--										port map(inP2.Op, inRF_AddrA, outRF_A,
+--																				inP2.B);
+		
+		-- v2: Added support for ADD, SOU & MUL
 		IP:	instruction_pointer	generic map(Naib => Naib)
-											port map(CLK, reset_base_addr,
+											port map(CLK, RST, reset_base_addr,
 														base_addr,
 																				current_addr,
-																				open);
+																				open, outIP_reset);
 		IB: 	instructions_bank	generic map(Naib => Naib,
 														N_instr => 4*N)
-										port map(CLK,
+										port map(CLK, outIP_reset,
 													current_addr,
 																				out_instr_bank);
 		BD:	binary_decoder		generic map(N => N)
@@ -218,19 +281,18 @@ architecture Structural of datapath is
 		RF:	register_file		generic map(Na => Na,
 														N => N,
 														Nr => N)
-										port map(CLK, '0', inRF_W,
-													outP4.A(Nr-1 downto 0),
-													outP4.B,
-													inRF_AddrA(Nr-1 downto 0),
-													(others => '0'),
+										port map(CLK, inRF_reset, inRF_W,
+													outP4.A(Nr-1 downto 0), outP4.B,
+													inRF_AddrA(Nr-1 downto 0), (others => '0'),
 																				outRF_A, open);
 		P2:	pipeline				generic map(N => N)
 										port map(CLK,
 													inP2.Op, inP2.A, inP2.B, Zeros(N-1 downto 0),
-																				inP3.Op, inP3.A, inP3.B, open);
+																				inP3.Op, inALU_A, inALU_B, open);
 		ALU:	arithmetic_logic_unit	generic map(N => N)
-										port map((others => '0'), (others => '0'), (others => '0'),
-																				open	,	open, open, open, open);
+										port map(inALU_Ctrl, inALU_A, inALU_B,
+																				outALU_S,
+																				open, open, open, open);
 		P3:	pipeline				generic map(N => N)
 										port map(CLK,
 													inP3.Op, inP3.A, inP3.B, Zeros(N-1 downto 0),
@@ -247,17 +309,16 @@ architecture Structural of datapath is
 																				outP4.Op, outP4.A, outP4.B, open);
 		CL_W:	combinatory_logic_W	generic map(N => N)
 										port map(outP4.Op,
-																				inRF_W);
+																				inRF_reset, inRF_W);
 		MPP2:	multiplexer_reg_addr generic map(N => N)
 										port map(inP2.Op, inRF_AddrA, outRF_A,
 																				inP2.B);
-		
-		-- v2: Added support for ADD, SOU & MUL
---		-- all the rest
---		CL_Ctrl:	generic map(N => N)
---										combinatory_logic_Ctrl_ALU
---		MPP3:	generic map(N => N)
---										multiplexer_UAL
+		CL_Ctrl:	combinatory_logic_Ctrl_ALU	generic map(N => N)
+										port map(inP3.Op,
+																				inALU_Ctrl);
+		MPP3:	multiplexer_UAL	generic map(N => N)
+										port map(inP3.Op, inALU_A, outALU_S,
+																				inP3.B);
 		
 		-- v3: Added support for LOAD
 		

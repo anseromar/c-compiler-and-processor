@@ -30,16 +30,17 @@ architecture Behavioral of register_file is
 	
 begin
 	-- Reading registers Addr_A and Addr_B
-	QA <= registers(to_integer(unsigned(Addr_A))) when Addr_A /= Addr_W else
-		   DATA;
-	QB <= registers(to_integer(unsigned(Addr_B))) when Addr_B /= Addr_W else
-			DATA;
+	QA <=	registers(to_integer(unsigned(Addr_A)))	when Addr_A /= Addr_W
+		else	(others=>'0')	when RST = '1'
+		else	DATA;
+	QB <=	registers(to_integer(unsigned(Addr_B)))	when Addr_B /= Addr_W
+		else	(others=>'0')	when RST = '1'
+		else	DATA;
 		
 	-- Writing in register Addr_W if W='1'
 	process
 	begin
 		wait until CLK'event and CLK='1';
-		--if raising_edge(CLK) then
 		if RST = '1' then
 			registers <= (others => (others => '0'));
 		elsif W = '1' then
@@ -48,4 +49,3 @@ begin
 	end process;
 
 end Behavioral;
-

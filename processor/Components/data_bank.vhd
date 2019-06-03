@@ -9,7 +9,7 @@ entity data_bank is
 	generic(Na:  natural := 32 ; N: natural := 16 ; Nb: natural := 256);
 	port(
 		-- CLK: Clock event
-		-- RST: '1' to reset all registers
+		-- RST: '1' to reset all memory spaces
 		-- RW: '1' to write & '0' to read in the memory at Addr
 		CLK, RST, RW: in std_logic;
 		-- Address of the memory space to read/write into

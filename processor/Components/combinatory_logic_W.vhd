@@ -7,13 +7,15 @@ entity combinatory_logic_W is
 	port(
 		-- Address of the memory space to start reading into
 		Op: in std_logic_vector(N-1 downto 0);
-		-- Output
-		Flag_W: out std_logic
+		-- Reset; write
+		out_RST, Flag_W: out std_logic
 	);
 end combinatory_logic_W;
 
 architecture Behavioral of combinatory_logic_W is
 begin
+	-- Reset if '1'
+	out_RST <= '1' when Op = x"0006";
 	-- The flag is set to '1' (write) when the input is AFC
 	Flag_W <= '1' when Op = x"0006";
 end Behavioral;
