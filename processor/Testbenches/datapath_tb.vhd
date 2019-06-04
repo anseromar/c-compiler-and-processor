@@ -1,10 +1,6 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
  
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
- 
 ENTITY datapath_tb IS
 END datapath_tb;
  
@@ -15,7 +11,7 @@ ARCHITECTURE behavior OF datapath_tb IS
     COMPONENT datapath
     PORT(
          CLK : IN  std_logic;
-         IP : IN  std_logic_vector(7 downto 0);
+         First_addr : IN  std_logic_vector(255 downto 0);
          RST : IN  std_logic
         );
     END COMPONENT;
@@ -23,7 +19,7 @@ ARCHITECTURE behavior OF datapath_tb IS
 
    --Inputs
    signal CLK : std_logic := '0';
-   signal IP : std_logic_vector(7 downto 0) := (others => '0');
+   signal First_addr : std_logic_vector(255 downto 0) := (others => '0');
    signal RST : std_logic := '0';
 
    -- Clock period definitions
@@ -34,7 +30,7 @@ BEGIN
 	-- Instantiate the Unit Under Test (UUT)
    uut: datapath PORT MAP (
           CLK => CLK,
-          IP => IP,
+          First_addr => First_addr,
           RST => RST
         );
 
@@ -56,7 +52,7 @@ BEGIN
 		wait for 10*CLK_period;
 		
 		-- Reset IP
-		IP <= x"0000";
+		First_addr <= x"0000";
 		
 		wait for 5*CLK_period;
 		

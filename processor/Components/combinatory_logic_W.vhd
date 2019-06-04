@@ -18,10 +18,5 @@ begin
 	out_RST <=	'1' when Op = x"0000"
 			else	'0';
 	-- The flag is set to '1' (write) when the input is AFC
-	Flag_W <= '1' when Op = x"0006";
+	Flag_W <= '1' when Op >= x"0001" AND Op <= x"0007";
 end Behavioral;
-
-
-
-
--- TODO: x"0001" to x"0007" included

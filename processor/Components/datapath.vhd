@@ -10,7 +10,7 @@ entity datapath is
 	generic(Naib:  natural := 16 ; Nr: natural := 16 ; Na: natural := 32 ; N: natural := 16 ; Nb: natural := 256);
 	port (
 		CLK : IN  std_logic;
-		First_addr : IN std_logic_vector(N-1 downto 0);
+		First_addr : IN std_logic_vector(Naib-1 downto 0);
 		RST : IN std_logic
 	);
 end datapath;
@@ -85,7 +85,7 @@ architecture Structural of datapath is
 	generic(Na:  natural; N: natural; Nb: natural);
 	port(
 		CLK, RST, RW: in std_logic;
-		Addr_part1, Addr_part2: in std_logic_vector(Na-1 downto 0);
+		Addr_part1, Addr_part2: in std_logic_vector(N-1 downto 0);
 		Input: in std_logic_vector(N-1 downto 0);
 		Output: out std_logic_vector(N-1 downto 0)
 	);
@@ -144,7 +144,7 @@ architecture Structural of datapath is
 	
 	-- V3
 	COMPONENT multiplexer_DB_in
-	GENERIC(N: natural ; Na: natural);
+	GENERIC(N: natural);
 	PORT(
 		Op, A, B: in std_logic_vector(N-1 downto 0);
 		Output_Addr_part1: out std_logic_vector(N-1 downto 0)
@@ -178,6 +178,7 @@ architecture Structural of datapath is
 	signal outRF_A:			std_logic_vector(N-1 downto 0);
 	
 	-- Additions for v2
+	signal inRF_AddrB:		std_logic_vector(N-1 downto 0);
 	signal inALU_Ctrl:		std_logic_vector(1 downto 0);
 	signal inALU_A:			std_logic_vector(N-1 downto 0);
 	signal outALU_S:			std_logic_vector(N-1 downto 0);
@@ -186,6 +187,7 @@ architecture Structural of datapath is
 	signal inDB_reset:		std_logic;		-- Reset flag for the data bank
 	signal inDB_RW:			std_logic;		-- Read/write flag for the data bank
 	signal inDB_Addr_part1:	std_logic_vector(N-1 downto 0);
+	signal inDB_Addr_part2:	std_logic_vector(N-1 downto 0);
 	signal outDB:				std_logic_vector(N-1 downto 0);
 	
 	-- Additions for v4
@@ -193,7 +195,8 @@ architecture Structural of datapath is
 	
 
 	begin
-		-- v0: Supports AFC
+		--					v0: Supports AFC
+
 --		IP:	instruction_pointer	generic map(Naib => Naib)
 --											port map(CLK, RST, reset_base_addr,
 --														base_addr,
@@ -243,7 +246,8 @@ architecture Structural of datapath is
 --										port map(outP4.Op,
 --																				inRF_reset, inRF_W);
 		
-		-- v1: Support for AFC & COP
+		--					v1: Support for AFC & COP
+
 --		IP:	instruction_pointer	generic map(Naib => Naib)
 --											port map(CLK, RST, reset_base_addr,
 --														base_addr,
@@ -297,7 +301,8 @@ architecture Structural of datapath is
 --										port map(inP2.Op, inRF_AddrA, outRF_A,
 --																				inP2.B);
 		
-		-- v2: Added support for ADD, SOU & MUL
+		--					v2: Added support for ADD, SOU & MUL
+
 --		IP:	instruction_pointer	generic map(Naib => Naib)
 --											port map(CLK, RST, reset_base_addr,
 --														base_addr,
@@ -316,13 +321,13 @@ architecture Structural of datapath is
 --		P1:	pipeline				generic map(N => N)
 --										port map(CLK,
 --													outBD.Op, outBD.A, outBD.B, outBD.C,
---																				inP2.Op, inP2.A, inRF_AddrA, open);
+--																				inP2.Op, inP2.A, inRF_AddrA, inRF_AddrB);
 --		RF:	register_file		generic map(Na => Na,
 --														N => N,
 --														Nr => N)
 --										port map(CLK, inRF_reset, inRF_W,
 --													outP4.A(Nr-1 downto 0), outP4.B,
---													inRF_AddrA(Nr-1 downto 0), (others => '0'),
+--													inRF_AddrA(Nr-1 downto 0), inRF_AddrB(Nr-1 downto 0),
 --																				outRF_A, inP2.B);
 --		P2:	pipeline				generic map(N => N)
 --										port map(CLK,
@@ -359,7 +364,8 @@ architecture Structural of datapath is
 --										port map(inP3.Op, inALU_A, outALU_S,
 --																				inP3.B);
 		
-		-- v3: Added support for LOAD
+		--					v3: Added support for LOAD
+
 --		IP:	instruction_pointer	generic map(Naib => Naib)
 --											port map(CLK, RST, reset_base_addr,
 --														base_addr,
@@ -378,13 +384,13 @@ architecture Structural of datapath is
 --		P1:	pipeline				generic map(N => N)
 --										port map(CLK,
 --													outBD.Op, outBD.A, outBD.B, outBD.C,
---																				inP2.Op, inP2.A, inRF_AddrA, open);
+--																				inP2.Op, inP2.A, inRF_AddrA, inRF_AddrB);
 --		RF:	register_file		generic map(Na => Na,
 --														N => N,
 --														Nr => N)
 --										port map(CLK, inRF_reset, inRF_W,
 --													outP4.A(Nr-1 downto 0), outP4.B,
---													inRF_AddrA(Nr-1 downto 0), (others => '0'),
+--													inRF_AddrA(Nr-1 downto 0), inRF_AddrB(Nr-1 downto 0),
 --																				outRF_A, inP2.B);
 --		P2:	pipeline				generic map(N => N)
 --										port map(CLK,
@@ -397,16 +403,16 @@ architecture Structural of datapath is
 --		P3:	pipeline				generic map(N => N)
 --										port map(CLK,
 --													inP3.Op, inP3.A, inP3.B, inP3.C,
---																				inP4.Op, inP4.A, inDB_Addr_part1, inP4.C);
+--																				inP4.Op, inP4.A, inDB_Addr_part1, inDB_Addr_part2);
 --		DB:	data_bank			generic map(Na => Na,
 --														N => N,
 --														Nb => Nb)
 --										port map('0', inDB_reset, inDB_RW,
---													inDB_Addr_part1, inP4.C, (others => '0'),
+--													inDB_Addr_part1, inDB_Addr_part2, (others => '0'),
 --																				outDB);
 --		P4:	pipeline				generic map(N => N)
 --										port map(CLK,
---													inP4.Op, inP4.A, inP4.B, inP4.C,
+--													inP4.Op, inP4.A, inP4.B, (others=>0),
 --																				outP4.Op, outP4.A, outP4.B, open);
 --		CL_W:	combinatory_logic_W	generic map(N => N)
 --										port map(outP4.Op,
@@ -428,7 +434,8 @@ architecture Structural of datapath is
 --																				inP4.B);
 		
 		
-		-- v4 (FINAL VERSION): Added support for STORE
+		--					v4 (FINAL VERSION): Added support for STORE
+
 		IP:	instruction_pointer	generic map(Naib => Naib)
 											port map(CLK, RST, reset_base_addr,
 														base_addr,
@@ -447,14 +454,14 @@ architecture Structural of datapath is
 		P1:	pipeline				generic map(N => N)
 										port map(CLK,
 													outBD.Op, outBD.A, outBD.B, outBD.C,
-																				inP2.Op, inP2.A, inRF_AddrA, open);
+																				inP2.Op, inP2.A, inRF_AddrA, inRF_AddrB);
 		RF:	register_file		generic map(Na => Na,
 														N => N,
 														Nr => N)
 										port map(CLK, inRF_reset, inRF_W,
 													outP4.A(Nr-1 downto 0), outP4.B,
-													inRF_AddrA(Nr-1 downto 0), (others => '0'),
-																				outRF_A, inP2.B);
+													inRF_AddrA(Nr-1 downto 0), inRF_AddrB(Nr-1 downto 0),
+																				outRF_A, inP2.C);
 		P2:	pipeline				generic map(N => N)
 										port map(CLK,
 													inP2.Op, inP2.A, inP2.B, inP2.C,
@@ -466,16 +473,21 @@ architecture Structural of datapath is
 		P3:	pipeline				generic map(N => N)
 										port map(CLK,
 													inP3.Op, inP3.A, inP3.B, inP3.C,
-																				inP4.Op, inP4.A, outP3_B, inP4.C);
+																				inP4.Op, inP4.A, outP3_B, inDB_Addr_part2);
 		DB:	data_bank			generic map(Na => Na,
 														N => N,
 														Nb => Nb)
 										port map('0', inDB_reset, inDB_RW,
-													inDB_Addr_part1, inP4.C, outP3_B,
+													inDB_Addr_part1,
+													inDB_Addr_part2,
+													outP3_B,
 																				outDB);
 		P4:	pipeline				generic map(N => N)
 										port map(CLK,
-													inP4.Op, inP4.A, inP4.B, inP4.C,
+													inP4.Op,
+													inP4.A,
+													inP4.B,
+													(others=>'0'),
 																				outP4.Op, outP4.A, outP4.B, open);
 		CL_W:	combinatory_logic_W	generic map(N => N)
 										port map(outP4.Op,
@@ -495,8 +507,7 @@ architecture Structural of datapath is
 		MPP4:	multiplexer_DB_out	generic map(N => N)
 										port map(inP4.Op, outP3_B, outDB,
 																				inP4.B);
-		MPDB:	multiplexer_DB_in	generic map(N => N,
-														Na => Na)
+		MPDB:	multiplexer_DB_in	generic map(N => N)
 										port map(inP4.Op, inP4.A, outP3_B,
 																				inDB_Addr_part1);
 

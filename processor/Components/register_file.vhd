@@ -30,10 +30,10 @@ architecture Behavioral of register_file is
 	
 begin
 	-- Reading registers Addr_A and Addr_B
-	QA <=	registers(to_integer(unsigned(Addr_A)))	when Addr_A /= Addr_W
+	QA <=	registers(to_integer(unsigned(Addr_A)))	when Addr_A /= Addr_W AND W = '1'
 		else	(others=>'0')	when RST = '1'
 		else	DATA;
-	QB <=	registers(to_integer(unsigned(Addr_B)))	when Addr_B /= Addr_W
+	QB <=	registers(to_integer(unsigned(Addr_B)))	when Addr_B /= Addr_W AND W = '1'
 		else	(others=>'0')	when RST = '1'
 		else	DATA;
 		
