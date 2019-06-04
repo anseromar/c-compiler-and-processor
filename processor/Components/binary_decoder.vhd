@@ -2,23 +2,36 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
---	-- Assembly operations supported:
---Code		Op		A		B		C
---	(Use				Write	Read	Read)
+-- TODO: turn JMP from 0009 to 000E
+-- TODO: Add support for JMPC. It consists only in a CL between the RF output A & the MUX here, with RST_@0 & @0 as an output towards IP (cf. hand-drawn diagram).
+-- TODO: Add support for EQU, INF, INFE, SUP & SUPE
+
+--	-- Assembly operations:
+--Code		Op		A		B		C		supported?
+-- Operands' use:	Write	Read	Read)
 --
---x"0000"	RST	_		_		_
+--x"0000"	RST	_		_		_		Y
 --
---x"0001"	ADD	Ri		Rj		Rk
---x"0002"	MUL	Ri		Rj		Rk
---x"0003"	SOU	Ri		Rj		Rk
---x"0004"	DIV	Ri		Rj		Rk
---x"0005"	COP	Ri		Rj		_
---x"0006"	AFC	Ri		j		_
---x"0007"	LOAD	Ri		@j1	@j2
---x"0008"	STORE	@i1	Rj 	@i2		-- Output of compiler: <STORE @i(1&2) Rj> with @i(1&2) on 32 bits. The decoder translates it to <STORE @i1 Rj @i2>.
+--x"0001"	ADD	Ri		Rj		Rk		Y
+--x"0002"	MUL	Ri		Rj		Rk		Y
+--x"0003"	SOU	Ri		Rj		Rk		Y
+--x"0004"	DIV	Ri		Rj		Rk		NO (but taken into account in all CL & MUX)
 --
---x"0009"	JMPC	@i		_		_
---x"FFFF" Padding	_		_		_
+--x"0005"	COP	Ri		Rj		_		Y
+--x"0006"	AFC	Ri		j		_		Y
+--x"0007"	LOAD	Ri		@j1	@j2	Y
+--x"0008"	STORE	@i1	Rj 	@i2	Y		-- Output of compiler: <STORE @i(1&2) Rj> with @i(1&2) on 32 bits. The decoder translates it to <STORE @i1 Rj @i2>.
+--
+--x"0009"	EQU	Ri		Rj		Rk		NO
+--x"000A"	INF	Ri		Rj		Rk		NO
+--x"000B"	INFE	Ri		Rj		Rk		NO
+--x"000C"	SUP	Ri		Rj		Rk		NO
+--x"000D"	SUPE	Ri		Rj		Rk		NO
+--
+--x"000E"	JMP	@i		_		_		Y
+--x"000F"	JMPC	@i		_		Rj		Y		-- Rj in C in case we want to change the IB addressing to 32 bits.
+--
+--x"FFFF" Padding	_		_		_		Y
 
 
 entity binary_decoder is
