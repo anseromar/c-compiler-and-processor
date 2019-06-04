@@ -14,7 +14,10 @@ end multiplexer_DB_in;
 
 architecture Behavioral of multiplexer_DB_in is
 begin
-	Output_Addr_part1 <=	A when Op = x"0008"		-- Use output A of pipeline P4 when STORE
-						else	B when Op = x"0007"		-- Use output B of pipeline P4 when LOAD
-						else	x"FFFF";						-- Other assembly operations/padding/jump/reset/error
+	Output_Addr_part1 <=	-- STORE
+								A when Op = x"0008"		-- Use output A of pipeline P4
+								-- LOAD
+						else	B when Op = x"0007"		-- Use output B of pipeline P4
+								-- ADD, MUL, SOU, DIV, COP, AFC, JMPC, RST, padding, error
+						else	x"FFFF";		-- Padding
 end Behavioral;

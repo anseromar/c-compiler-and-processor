@@ -14,8 +14,12 @@ end combinatory_logic_Ctrl_ALU;
 
 architecture Behavioral of combinatory_logic_Ctrl_ALU is
 begin
-	Ctrl_ALU <=	"01" when Op = x"0001"	-- ADD
-			else	"10" when Op = x"0003"	-- SOU
-			else	"11" when Op = x"0002"	-- MUL
-			else	"00";							-- Error
+	Ctrl_ALU <=	-- ADD
+					"01" when Op = x"0001"	-- ALU: add
+					-- SOU
+			else	"10" when Op = x"0003"	-- ALU: substract
+					-- MUL
+			else	"11" when Op = x"0002"	-- ALU: multiply
+					-- DIV, COP, AFC, LOAD, STORE, JMPC, RST, padding, error
+			else	"00";							-- ALU: do nothing
 end Behavioral;

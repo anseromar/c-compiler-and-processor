@@ -17,6 +17,8 @@ begin
 	-- Reset if '1'
 	out_RST <=	'1' when Op = x"0000"
 			else	'0';
-	-- The flag is set to '1' (write) when the input is AFC
-	Flag_W <= '1' when Op >= x"0001" AND Op <= x"0007";
+	Flag_W <=	-- ADD, MUL, SOU, DIV, COP, AFC, LOAD
+					'1' when Op >= x"0001" AND Op <= x"0007"		-- Write in register file
+					-- STORE, JMPC, RST, padding, error
+			else	'0';
 end Behavioral;

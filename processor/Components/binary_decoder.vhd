@@ -2,12 +2,12 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
--- TODO: Prévir le passage 32 bits en adaptant @i XX _ en @i1@i2 XX (STORE & JMP)
-
 --	-- Assembly operations supported:
 --Code		Op		A		B		C
---	(Use			 Write  Read  Read)
+--	(Use				Write	Read	Read)
+--
 --x"0000"	RST	_		_		_
+--
 --x"0001"	ADD	Ri		Rj		Rk
 --x"0002"	MUL	Ri		Rj		Rk
 --x"0003"	SOU	Ri		Rj		Rk
@@ -15,8 +15,10 @@ use IEEE.NUMERIC_STD.ALL;
 --x"0005"	COP	Ri		Rj		_
 --x"0006"	AFC	Ri		j		_
 --x"0007"	LOAD	Ri		@j1	@j2
---x"0008"	STORE	@i1	Rj 	@i2		-- Output of compiler: <STORE @i(1&2) Rj>. The decoder translates it to <STORE @i1 Rj @i2>.
+--x"0008"	STORE	@i1	Rj 	@i2		-- Output of compiler: <STORE @i(1&2) Rj> with @i(1&2) on 32 bits. The decoder translates it to <STORE @i1 Rj @i2>.
+--
 --x"0009"	JMPC	@i		_		_
+--x"FFFF" Padding	_		_		_
 
 
 entity binary_decoder is

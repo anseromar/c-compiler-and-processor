@@ -17,7 +17,8 @@ begin
 	-- Reset if '1'
 	out_RST <=	'1' when Op = x"0000"
 			else	'0';
-	-- The flag is set to '1' (read) when the input is LOAD & '0' (write) when STORE
-	Flag_RW <=	'0' when Op = x"0007"		-- LOAD
-			else	'1' when Op = x"0008";		-- STORE
+	Flag_RW <=	-- LOAD
+					'1' when Op = x"0008"		-- Data bank: write
+					-- STORE
+			else	'0';								-- Data bank: read
 end Behavioral;

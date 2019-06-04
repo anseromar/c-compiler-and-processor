@@ -14,7 +14,10 @@ end multiplexer_UAL;
 
 architecture Behavioral of multiplexer_UAL is
 begin
-	Output <=	B when Op >= x"0001" AND Op <= x"0003"								-- Output takes the result from the ALU
-			else	A when (Op >= x"0005" AND Op <= x"0009")  OR Op = x"FFFF"	-- Bypass the ALU
-			else	x"FFFF";		-- Jump/reset/error
+	Output <=	-- ADD, MUL, SOU
+					B when Op >= x"0001" AND Op <= x"0003"		-- Take the result of the ALU
+					-- COP, AFC, LOAD, STORE
+			else	A when Op >= x"0005" AND Op <= x"0008"		-- Bypass the ALU
+					-- DIV, JMPC, RST, padding, error
+			else	x"FFFF";		-- Padding
 end Behavioral;

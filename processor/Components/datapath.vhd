@@ -1,6 +1,8 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
+-- TODO: add MUX out RF bis
+
 entity datapath is
 	-- Naib:	Generic size of the addresses in the instruction bank
 	-- Nr:	Number of registers
@@ -142,7 +144,15 @@ architecture Structural of datapath is
 	);
 	END COMPONENT;
 	
-	-- V3
+	-- V4
+	COMPONENT multiplexer_reg_addr_bis
+	GENERIC(N: natural);
+	PORT(
+		Op, A, B: in std_logic_vector(N-1 downto 0);
+		Output: out std_logic_vector(N-1 downto 0)
+	);
+	END COMPONENT;
+	
 	COMPONENT multiplexer_DB_in
 	GENERIC(N: natural);
 	PORT(
@@ -191,6 +201,7 @@ architecture Structural of datapath is
 	signal outDB:				std_logic_vector(N-1 downto 0);
 	
 	-- Additions for v4
+	signal outRF_B:			std_logic_vector(N-1 downto 0);
 	signal outP3_B:			std_logic_vector(N-1 downto 0);
 	
 
@@ -339,7 +350,7 @@ architecture Structural of datapath is
 --																				open, open, open, open);
 --		P3:	pipeline				generic map(N => N)
 --										port map(CLK,
---													inP3.Op, inP3.A, inP3.B, inP2.C,
+--													inP3.Op, inP3.A, inP3.B, inP3.C,
 --																				inP4.Op, inP4.A, inP4.B, open);
 --		DB:	data_bank			generic map(Na => Na,
 --														N => N,
@@ -461,7 +472,7 @@ architecture Structural of datapath is
 										port map(CLK, inRF_reset, inRF_W,
 													outP4.A(Nr-1 downto 0), outP4.B,
 													inRF_AddrA(Nr-1 downto 0), inRF_AddrB(Nr-1 downto 0),
-																				outRF_A, inP2.C);
+																				outRF_A, outRF_B);
 		P2:	pipeline				generic map(N => N)
 										port map(CLK,
 													inP2.Op, inP2.A, inP2.B, inP2.C,
@@ -507,12 +518,11 @@ architecture Structural of datapath is
 		MPP4:	multiplexer_DB_out	generic map(N => N)
 										port map(inP4.Op, outP3_B, outDB,
 																				inP4.B);
+		MPP2b:	multiplexer_reg_addr_bis	generic map(N => N)
+										port map(inP2.Op, inRF_AddrB, outRF_B,
+																				inP2.C);
 		MPDB:	multiplexer_DB_in	generic map(N => N)
 										port map(inP4.Op, inP4.A, outP3_B,
 																				inDB_Addr_part1);
-
--- Currently mapped like on the circuit scheme in the subject.
--- TODO: Complete to solve the issue of multiplexers in the data bank area due to 16 bits registers and 32 bits memory addressing (LOAD Ri @j1 @j2 but STORE @i1 Rj @i2).
-
 
 End Structural;
