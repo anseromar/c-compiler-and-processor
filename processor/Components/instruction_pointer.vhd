@@ -25,20 +25,30 @@ architecture Behavioral of instruction_pointer is
 	constant Zeros:  std_logic_vector(Naib-1 downto 0) := (others => '0');
 	-- 
 	signal continue: std_logic := '1';
+	signal jump_stopwatch: std_logic_vector := x"0";
 	-- Offset (from Base_addr) of the address in which the program reads
 	signal offset: std_logic_vector(Naib-1 downto 0) := Zeros(Naib-1 downto 1) & "1";
 	signal current_addr: std_logic_vector(Naib-1 downto 0) := Base_addr;
 
 	begin
-		continue <= '0'	when in_RST = '1';
-		out_RST <= '1'		when in_RST = '1'
-								else '0';
+		-- Full reset of all the processor
+		continue <=	'0'	when in_RST = '1';
+		out_RST <=	'1'	when in_RST = '1'
+				else	'0';
+		
+		-- Waiting then reactivation of the incrementation after a jump
+		jump_stopwatch <= jump_stopwatch - 1	when jump_stopwatch > x"0";
+		continue <= '1'	when jump_stopwatch = x"0";
+		
 		process
 		begin
 			wait until CLK'event and CLK='1';
 			-- Reset to Base_addr if told so
 			if Reset_base_addr = '1' then
 				current_addr <= Base_addr;
+				-- Wait for 4 clock cycles after a jump
+				jump_stopwatch <= x"3";
+				continue <= '0';
 			-- Reset to base address if overflow
 			elsif current_addr = 2**Naib AND continue = '1' then
 				current_addr <= Base_addr;
@@ -51,6 +61,9 @@ architecture Behavioral of instruction_pointer is
 			-- Output assignation
 			if continue = '1' then
 				Output <= current_addr;
+			-- Waiting after a jump
+			elsif jump_stopwatch < x"0" then
+				Output <= x"FFFF";
 			end if;
 		end process;
 end Behavioral;
