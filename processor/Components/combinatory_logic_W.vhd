@@ -20,3 +20,8 @@ begin
 	-- The flag is set to '1' (write) when the input is AFC
 	Flag_W <= '1' when Op = x"0006";
 end Behavioral;
+
+
+
+
+-- TODO: x"0001" to x"0007" included
