@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
--- TODO: Add hazards management (with a decrementing integer like in the instruction pointer)
+-- TODO: Add hazards management (with a decrementing integer like in the instruction pointer or common.vhd)
 
 --	-- Assembly operations:
 --Code		Op		A		B		C		supported?
@@ -29,7 +29,9 @@ use IEEE.NUMERIC_STD.ALL;
 --x"000E"	JMP	@i		_		_		Y
 --x"000F"	JMPC	@i		_		Rj		Y		-- Rj in C in case we want to change the IB addressing to 32 bits.
 --
---x"FFFF"	NOPE	_		_		_		Y
+--x"FFFF"	NOP	_		_		_		Y
+
+
 
 entity binary_decoder is
 	-- N:		Generic size of the assembly instructions and of their parameters
@@ -54,15 +56,15 @@ architecture Behavioral of binary_decoder is
 begin
 	operation <= Full_instr(4*N-1 downto 3*N);
 	
-	-- Takes operation when the input operation is know. Else transforms into NOPE.
-	Op	<=		-- ADD, MUL, SOU, DIV, COP, AFC, LOAD, STORE, EQU, INF, INFE, SUP, SUPE, JMP, JMPC, NOPE, RST
+	-- Takes operation when the input operation is know. Else transforms into NOP.
+	Op	<=		-- ADD, MUL, SOU, DIV, COP, AFC, LOAD, STORE, EQU, INF, INFE, SUP, SUPE, JMP, JMPC, NOP, RST
 				operation 							when (operation >= x"0000" AND operation <= x"000F") OR	operation = x"FFFF"
 				-- Error
 		else	x"FFFF";
 	-- Takes input when the operation needs a first operand (all assembly instructions)
 	A	<=		-- ADD, MUL, SOU, DIV, COP, AFC, LOAD, STORE, EQU, INF, INFE, SUP, SUPE, JMP, JMPC, RST
 				Full_instr(3*N-1 downto 2*N)	when operation >= x"0000" AND operation <= x"000F"
-				-- NOPE, error
+				-- NOP, error
 		else	x"FFFF";
 	-- Takes input when the operation needs a second operand (all assembly instructions)
 	B	<=		-- ADD, MUL, SOU, DIV, COP, AFC, LOAD, EQU, INF, INFE, SUP, SUPE
@@ -70,14 +72,14 @@ begin
 		-- STORE is saved as <STORE @i(1&2) Rj> by the compiler. Here is part of its translation to <STORE @i1 Rj @i2> (second and last modification in the first ELSE of the C assignement below).
 		else	-- STORE
 				Full_instr(N-1 downto 0)		when operation = x"0008"
-		else	-- JMP, JMPC, NOPE, RST, error
+		else	-- JMP, JMPC, NOP, RST, error
 				x"FFFF";
-	-- Takes input when the operation needs a third operand (ADD, MUL, SOU, DIV & STORE); else padding (COP, AFC, LOAD, JMP, NOPE & unknown operations).
+	-- Takes input when the operation needs a third operand (ADD, MUL, SOU, DIV & STORE); else padding (COP, AFC, LOAD, JMP, NOP & unknown operations).
 	C	<=		-- ADD, MUL, SOU, DIV, COP, AFC, LOAD, EQU, INF, INFE, SUP, SUPE, JMPC
 				Full_instr(N-1 downto 0)		when (operation >= x"0001" AND operation <= x"0007") OR (operation >= x"0009" AND operation <= x"000D") OR operation >= x"000F"
 		else	-- STORE
 				Full_instr(2*N-1 downto N)		when operation = x"0008"
-		else	-- JMP, NOPE, RST, error
+		else	-- JMP, NOP, RST, error
 				x"FFFF";
 	-- JMP case: send instruction to reset base address to the instruction pointer (JMPC passes through the register file)
 	Reset_base_addr	<=	'1'					when operation = x"000E"

@@ -34,6 +34,7 @@ begin
 		--   (1) reset, because reading or writing whilst resetting is useless
 		--   (2) read, to read before potentially overwriting
 		--   (3) write
+		Addr <= Addr_part1 & Addr_part2;
 		-- Reset
 		if RST = '1' then
 			data_b <= (others => (others => '0'));

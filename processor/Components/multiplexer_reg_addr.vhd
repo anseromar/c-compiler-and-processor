@@ -18,6 +18,6 @@ begin
 					B when (Op >= x"0001" AND Op <= x"0005") OR (Op >= x"0008" AND Op <= x"000D")		-- Use output of the register file
 					-- AFC, LOAD
 			else	A when Op = x"0006" OR Op = x"0007"																-- Bypass the register file
-					-- JMP, JMPC, NOPE, RST, error
+					-- JMP, JMPC, NOP, RST, error
 			else	x"FFFF";		-- Padding
 end Behavioral;

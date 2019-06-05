@@ -11,7 +11,7 @@ ARCHITECTURE behavior OF datapath_tb IS
     COMPONENT datapath
     PORT(
          CLK : IN  std_logic;
-         First_addr : IN  std_logic_vector(255 downto 0);
+         First_addr : IN  std_logic_vector(15 downto 0);
          RST : IN  std_logic
         );
     END COMPONENT;
@@ -19,7 +19,7 @@ ARCHITECTURE behavior OF datapath_tb IS
 
    --Inputs
    signal CLK : std_logic := '0';
-   signal First_addr : std_logic_vector(255 downto 0) := (others => '0');
+   signal First_addr : std_logic_vector(15 downto 0) := (others => '0');
    signal RST : std_logic := '0';
 
    -- Clock period definitions
@@ -49,7 +49,7 @@ BEGIN
    begin
 		
 		-- Test with default values
-		wait for 10*CLK_period;
+		wait for 5*CLK_period;
 		
 		-- Reset IP
 		First_addr <= x"0000";
@@ -58,6 +58,11 @@ BEGIN
 		
 		-- Full reset of the entire processor
 		RST <= '1';
+		
+		wait for 5*CLK_period;
+		
+		-- Start again
+		First_addr <= x"0003";
 		
 		wait for 5*CLK_period;
 

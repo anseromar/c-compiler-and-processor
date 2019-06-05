@@ -18,6 +18,6 @@ begin
 								A when Op = x"0008"		-- Use output A of pipeline P4
 								-- LOAD
 						else	B when Op = x"0007"		-- Use output B of pipeline P4
-								-- ADD, MUL, SOU, DIV, COP, AFC, EQU, INF, INFE, SUP, SUPE, JMP, JMPC, NOPE, RST, error
+								-- ADD, MUL, SOU, DIV, COP, AFC, EQU, INF, INFE, SUP, SUPE, JMP, JMPC, NOP, RST, error
 						else	x"FFFF";		-- Padding
 end Behavioral;

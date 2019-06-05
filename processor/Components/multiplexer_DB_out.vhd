@@ -18,6 +18,6 @@ begin
 					B when Op = x"0007"								-- Use output of the data bank
 					-- ADD, MUL, SOU, DIV, COP, AFC, STORE, EQU, INF, INFE, SUP, SUPE
 			else	A when Op >= x"0001" AND Op <= x"0009"		-- Bypass the data bank
-					-- JMP, JMPC, NOPE, RST, error
+					-- JMP, JMPC, NOP, RST, error
 			else	x"FFFF";		-- Padding
 end Behavioral;

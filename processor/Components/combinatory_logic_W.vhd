@@ -20,6 +20,6 @@ begin
 			else	'0';
 	Flag_W <=	-- ADD, MUL, SOU, DIV, COP, AFC, LOAD, EQU, INF, INFE, SUP, SUPE
 					'1' when (Op >= x"0001" AND Op <= x"000D") AND Op /= x"0008"		-- Write in register file
-					-- STORE, JMP, JMPC, NOPE, RST, error
+					-- STORE, JMP, JMPC, NOP, RST, error
 			else	'0';
 end Behavioral;

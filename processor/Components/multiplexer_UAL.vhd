@@ -18,6 +18,6 @@ begin
 					B when Op >= x"0001" AND Op <= x"0003"		-- Take the result of the ALU
 					-- COP, AFC, LOAD, STORE, EQU, INF, INFE, SUP, SUPE
 			else	A when Op >= x"0005" AND Op <= x"000D"		-- Bypass the ALU
-					-- DIV, JMP, JMPC, NOPE, RST, error
+					-- DIV, JMP, JMPC, NOP, RST, error
 			else	x"FFFF";		-- Padding
 end Behavioral;

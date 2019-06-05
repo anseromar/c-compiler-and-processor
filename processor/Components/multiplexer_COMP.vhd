@@ -31,6 +31,6 @@ begin
 			else	x"0000"	when Op = x"000D"
 					-- ADD, MUL, SOU, DIV, COP, AFC, LOAD, STORE
 			else	QA			when Op >= x"0001" AND Op <= x"0008"
-					-- JMP, JMPC, NOPE, RST, error
+					-- JMP, JMPC, NOP, RST, error
 			else	x"FFFF";
 end Behavioral;

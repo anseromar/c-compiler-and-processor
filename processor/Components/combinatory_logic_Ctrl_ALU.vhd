@@ -20,6 +20,6 @@ begin
 			else	"10" when Op = x"0003"	-- ALU: substract
 					-- MUL
 			else	"11" when Op = x"0002"	-- ALU: multiply
-					-- DIV, COP, AFC, LOAD, STORE, EQU, INF, INFE, SUP, SUPE, JMP, JMPC, NOPE, RST, error
+					-- DIV, COP, AFC, LOAD, STORE, EQU, INF, INFE, SUP, SUPE, JMP, JMPC, NOP, RST, error
 			else	"00";							-- ALU: do nothing
 end Behavioral;
