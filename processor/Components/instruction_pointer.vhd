@@ -4,6 +4,8 @@ use IEEE.STD_LOGIC_ARITH.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
+-- TODO: Hazards management with jump_stopwatch
+
 entity instruction_pointer is
 	-- Naib:	Generic size of the addresses in the instruction bank
 	generic(Naib:  natural := 16);
@@ -23,22 +25,16 @@ end instruction_pointer;
 architecture Behavioral of instruction_pointer is
 	-- Constant zero; used for comparisons
 	constant Zeros:  std_logic_vector(Naib-1 downto 0) := (others => '0');
-	-- 
-	signal continue: std_logic := '1';
-	signal jump_stopwatch: std_logic_vector := x"0";
+	-- Decrementing stopwatch set to 3 when a jump is encountered
+--	signal jump_stopwatch: std_logic_vector := x"0";
 	-- Offset (from Base_addr) of the address in which the program reads
 	signal offset: std_logic_vector(Naib-1 downto 0) := Zeros(Naib-1 downto 1) & "1";
 	signal current_addr: std_logic_vector(Naib-1 downto 0) := Base_addr;
 
 	begin
-		-- Full reset of all the processor
-		continue <=	'0'	when in_RST = '1';
+		-- Passing full reset of all the processor
 		out_RST <=	'1'	when in_RST = '1'
 				else	'0';
-		
-		-- Waiting then reactivation of the incrementation after a jump
-		jump_stopwatch <= jump_stopwatch - 1	when jump_stopwatch > x"0";
-		continue <= '1'	when jump_stopwatch = x"0";
 		
 		process
 		begin
@@ -47,23 +43,24 @@ architecture Behavioral of instruction_pointer is
 			if Reset_base_addr = '1' then
 				current_addr <= Base_addr;
 				-- Wait for 4 clock cycles after a jump
-				jump_stopwatch <= x"3";
-				continue <= '0';
-			-- Reset to base address if overflow
-			elsif current_addr = 2**Naib AND continue = '1' then
+--				jump_stopwatch <= x"3";
+				Output <= x"FFFF";
+			-- Reset to base address if overflow (& no reset/jump)
+			elsif current_addr = 2**Naib-1 AND in_RST = '0' AND Reset_base_addr = '0' then --AND jump_stopwatch = x"0" then
 				current_addr <= Base_addr;
 				flag_O <= '1';
-			-- Incrementation of the current address
-			elsif  continue = '1' then
+				Output <= current_addr;
+				current_addr <= current_addr + offset;
+			-- Normal case: output assignation & incrementation of the current address
+			elsif current_addr < 2**Naib-1 AND in_RST = '0' then --AND jump_stopwatch = x"0" then
+				Output <= current_addr;
 				current_addr <= current_addr + offset;
 				flag_O <= '0';
-			end if;
-			-- Output assignation
-			if continue = '1' then
-				Output <= current_addr;
-			-- Waiting after a jump
-			elsif jump_stopwatch < x"0" then
+			-- Waiting after a jump or during a reset period
+			elsif in_RST = '1' then --OR jump_stopwatch < x"0" then
 				Output <= x"FFFF";
 			end if;
+			-- Waiting then reactivation of the incrementation after a jump
+--			jump_stopwatch <= jump_stopwatch - x"1" when jump_stopwatch > x"0";
 		end process;
 end Behavioral;

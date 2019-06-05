@@ -15,10 +15,11 @@ end combinatory_logic_DB;
 architecture Behavioral of combinatory_logic_DB is
 begin
 	-- Reset if '1'
-	out_RST <=	'1' when Op = x"0000"
+	out_RST <=	-- Reset
+					'1' when Op = x"0000"
 			else	'0';
-	Flag_RW <=	-- LOAD
+	Flag_RW <=	-- STORE
 					'1' when Op = x"0008"		-- Data bank: write
-					-- STORE
+					-- LOAD
 			else	'0';								-- Data bank: read
 end Behavioral;
