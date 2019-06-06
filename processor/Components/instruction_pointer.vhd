@@ -27,7 +27,7 @@ architecture Behavioral of instruction_pointer is
 	constant Zeros:  std_logic_vector(Naib-1 downto 0) := (others => '0');
 	-- Decrementing stopwatch set to 3 when a jump is encountered
 --	signal jump_stopwatch: std_logic_vector := x"0";
-	variable stopwatch_bis: integer := 0;
+--	variable stopwatch_bis: integer := 0;
 	-- Offset (from Base_addr) of the address in which the program reads
 	signal offset: std_logic_vector(Naib-1 downto 0) := Zeros(Naib-1 downto 1) & "1";
 	signal current_addr: std_logic_vector(Naib-1 downto 0) := Base_addr;
@@ -63,6 +63,6 @@ architecture Behavioral of instruction_pointer is
 			end if;
 			-- Waiting then reactivation of the incrementation after a jump
 --			jump_stopwatch <= jump_stopwatch - x"1" when jump_stopwatch > x"0";
-			stopwatch_bis := stopwatch_bis + 1 when stopwatch_bis > 0;
+--			stopwatch_bis := stopwatch_bis + 1 when stopwatch_bis > 0;
 		end process;
 end Behavioral;

@@ -39,9 +39,7 @@ begin
 				else	("0"&A) - ("0"&B)		when Ctrl="10"
 				else	(others=>'0');
 
-	S_temp_mult <=	-- Multiplication (unsigned)
-					--std_logic_vector( unsigned(Zero(N-1 downto 0) & A)
-					--								* unsigned(Zero(N-1 downto 0) & B) )	when Ctrl="11"
+	S_temp_mult <=	-- Multiplication (signed)
 						A * B						when Ctrl="11"
 				else	(others=>'0');
 
@@ -71,7 +69,7 @@ begin
 	-- Overflow (signed bit affected)
 	flag_O <= '1'	when	( (S_temp_add(N-1) /= S_temp_bis(N-1) )
 								and (Ctrl="01" or Ctrl="10") )
-							or		( (S_temp_mult(7 downto 0) /= Zero(N-1 downto 0))
+							or		( (S_temp_mult(2*N-1 downto N) /= Zero(N-1 downto 0))
 								and Ctrl="11" )
 						else '0';
 
