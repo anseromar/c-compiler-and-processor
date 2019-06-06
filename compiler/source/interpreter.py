@@ -5,26 +5,34 @@ instruction_pointer = 0
 
 instructions_memory = [(line.rstrip('\n')).split() for line in open('../assembler/assembly.s', 'r+')]
 
-print(instructions_memory)
-while instruction_pointer <= len(instructions_memory):
-	print(instruction_pointer)
+
+while instruction_pointer <= len(instructions_memory) - 1:
+	
 	if instructions_memory[instruction_pointer][0] == "AFC":
 		registers[int(instructions_memory[instruction_pointer][1])] = int(instructions_memory[instruction_pointer][2])
-		instruction_pointer+=1
-	elif instructions_memory[instruction_pointer][0] == "LOAD":
-		registers[int(instructions_memory[instruction_pointer][1])] = datas_memory[int(instructions_memory[instruction_pointer][2])]
 		instruction_pointer+=1
 	elif instructions_memory[instruction_pointer][0] == "STORE":
 		datas_memory[int(instructions_memory[instruction_pointer][1])] = registers[int(instructions_memory[instruction_pointer][2])]
 		instruction_pointer+=1
+		
+	elif instructions_memory[instruction_pointer][0] == "LOAD":
+		registers[int(instructions_memory[instruction_pointer][1])] = datas_memory[int(instructions_memory[instruction_pointer][2])]
+		instruction_pointer+=1
+	elif instructions_memory[instruction_pointer][0] == "EQU":
+		if(registers[int(instructions_memory[instruction_pointer][2])] == registers[int(instructions_memory[instruction_pointer][3])]):
+			registers[int(instructions_memory[instruction_pointer][1])] = 1
+			instruction_pointer+=1
+		else:
+			registers[int(instructions_memory[instruction_pointer][1])] = 0 
+			instruction_pointer+=1	
 	elif instructions_memory[instruction_pointer][0] == "JMPC":
 		if len(instructions_memory[instruction_pointer]) > 2:
 			if(registers[int(instructions_memory[instruction_pointer][2])] == 1):
 				instruction_pointer+=1
 			else: 
-				instruction_pointer = int(instructions_memory[instruction_pointer][2])
+				instruction_pointer = int(instructions_memory[instruction_pointer][1]) - 1 
 		else:
-			instruction_pointer = int(instructions_memory[instruction_pointer][1])
+			instruction_pointer = int(instructions_memory[instruction_pointer][1]) - 1 
 	elif instructions_memory[instruction_pointer][0] == "INF":
 		if(registers[int(instructions_memory[instruction_pointer][2])] < registers[int(instructions_memory[instruction_pointer][3])]):
 			registers[int(instructions_memory[instruction_pointer][1])] = 1 
@@ -32,6 +40,10 @@ while instruction_pointer <= len(instructions_memory):
 		else:
 			registers[int(instructions_memory[instruction_pointer][1])] = 0 
 			instruction_pointer+=1
+	elif instructions_memory[instruction_pointer][0] == "ADD":
+		registers[int(instructions_memory[instruction_pointer][1])] = registers[int(instructions_memory[instruction_pointer][2])] + registers[int(instructions_memory[instruction_pointer][3])]
+		instruction_pointer+=1
+
 	elif instructions_memory[instruction_pointer][0] == "INFE":
 		if(registers[int(instructions_memory[instruction_pointer][2])] <= registers[int(instructions_memory[instruction_pointer][3])]):
 			registers[int(instructions_memory[instruction_pointer][1])] = 1 
@@ -60,26 +72,23 @@ while instruction_pointer <= len(instructions_memory):
 		else:
 			registers[int(instructions_memory[instruction_pointer][1])] = 0 
 			instruction_pointer+=1
-	elif instructions_memory[instruction_pointer][0] == "ADD":
-		registers[int(instructions_memory[instruction_pointer][1])] = registers[int(instructions_memory[instruction_pointer][2])] + registers[int(instructions_memory[instruction_pointer][3])]
-		instruction_pointer+=1
 	elif instructions_memory[instruction_pointer][0] == "SUB":
-		registers[int(instructions_memory[instruction_pointer][1])] = registers[int(instructions_memory[instruction_pointer][2])] - registers[int(instructions_memory[instruction_pointer][3])]
+		registers[int(instructions_memory[instruction_pointer][1])] = registers[int(instructions_memory[instruction_pointer][3])] - registers[int(instructions_memory[instruction_pointer][2])]
 		instruction_pointer+=1
 	elif instructions_memory[instruction_pointer][0] == "MULT":
 		registers[int(instructions_memory[instruction_pointer][1])] = registers[int(instructions_memory[instruction_pointer][2])] * registers[int(instructions_memory[instruction_pointer][3])]
 		instruction_pointer+=1
 	elif instructions_memory[instruction_pointer][0] == "DIV":
-		registers[int(instructions_memory[instruction_pointer][1])] = registers[int(instructions_memory[instruction_pointer][2])] / registers[int(instructions_memory[instruction_pointer][3])]
+		registers[int(instructions_memory[instruction_pointer][1])] = registers[int(instructions_memory[instruction_pointer][3])] // registers[int(instructions_memory[instruction_pointer][2])]
 		instruction_pointer+=1
 
-		
 print("*****************************")
-print(instructions_memory)
+print("instructions_memory :", instructions_memory)
 print("*****************************")
-print(datas_memory)
+print("datas_memory :", datas_memory)
 print("*****************************")
-print(registers)
+print("registers : ", registers)
 print("*****************************")
-print(instruction_pointer)
+print("instruction_pointer :", instruction_pointer)
 print("*****************************")
+

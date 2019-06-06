@@ -31,7 +31,6 @@
 
 %start Start
 
-// Token IF virtuel permettant de marquer un IF présent juste avant un ELSE. On lève ainsi l'ambigüité s'il y a des IF successifs.
 %nonassoc tIFX
 %nonassoc tELSE
 %%
@@ -57,7 +56,7 @@ InstructionsFonc : InstructionFonc InstructionsFonc | InstructionFonc;
 
 InstructionFonc : Instruction | tRETURN Expression tBRK_PT { assem_add_instr_arg2("AFC",0,$2); assem_add_instr_arg2("STORE", 1000,0);  assem_add_instr_arg0("RET");} ;
 
-Instruction : Expression tBRK_PT | Print tBRK_PT | If | While; // Supprimer les variables temporaires à la fin de chaque instruction 
+Instruction : Expression tBRK_PT | Print tBRK_PT | If | While; 
 
 Main : tINT tMAIN tPAR_L { func_update("main",1,assem_number_instr());} tPAR_R { func_set_inactive(); } tACC_L { sym_incr_depth(); } Declarations Instructions tACC_R { sym_delete_body(); sym_decr_depth(); };
 
@@ -97,36 +96,28 @@ If : tIF  ConditionIf
 
 	tACC_L Declarations Instructions tACC_R %prec tIFX 
 					{
-					assem_modify_arg_instr($<nb>2, 0, assem_number_instr() + 1 ); // On rectifie la ligne du saut du JMPC, préalablement initialisée à une valeur par défaut (-1).
+					assem_modify_arg_instr($<nb>2, 0, assem_number_instr() + 1 );
 					}
 
 	|tIF ConditionIf
 	
 	tACC_L Declarations Instructions tACC_R {
-					 /*JUMP POUR EVITER LE ELSE ---> (1) */
 					 assem_add_instr_arg2("JMPC", -1, 1);
 					 $6 = assem_number_instr() - 1;
-					 /*RETOURNER LA lIGNE OU JUMP POUR LE ELSE*/
 					 assem_modify_arg_instr($<nb>2, 0, assem_number_instr() + 1);
 				   }
 	
-	tELSE tACC_L Declarations Instructions tACC_R { /*EN LIEN AVEC (1) PERMET DE FORNI LE NUMERO DE LIGNE*/ 
+	tELSE tACC_L Declarations Instructions tACC_R { 
 	     assem_modify_arg_instr($6, 0, assem_number_instr() + 1);
                                                 	} ;
 
-/*PAS OPÉRATIOINNEL :	- LOAD NE FONCTIONNE PAS (MEME PB QUE POUR LE IF)
-						- INF COMPARE LE MEME REGISTRE R0 AVEC LUI-MEME (TOUJOURS FAUX) ==> ==> 29 AVRIL : BUG RESOLU, FAIRE D'AUTRES TESTS
-						- BIEN QU'ON FASSE R0<R0 COMME TEST, ON ENTRE QUAND MEME DANS LA BOUCLE
-						- JUMP AU MAUVAIS ENDROIT, COMME SI ON EFFECTUAIT UN IF (ET NON AU DEBUT DE LA BOUCLE) ==> 29 AVRIL : BUG RESOLU, FAIRE D'AUTRES TESTS
-						*/
-
-While : tWHILE Condition tACC_L { /*MEME IDEE QUE POUR LE IF*/
+While : tWHILE Condition tACC_L { 
 						   $<nb>3 = assem_number_instr() - 7; 
 						   assem_add_instr_arg2("LOAD", 1, $2);
 						   assem_add_instr_arg2("JMPC", -1, 1);
                            $1 = assem_number_instr() - 1;
 						 }  Declarations Instructions tACC_R 
-						 { /*RETOURNER LA lIGNE OU JUMP POUR LE WHILE : JUMP EN ARRIERE */
+						 { 
 						   assem_add_instr_arg1("JMPC", $<nb>3);
 						   assem_modify_arg_instr($1, 0, assem_number_instr() + 1); 
 						 };
@@ -137,7 +128,7 @@ Condition: tPAR_L Expression tINF Expression tPAR_R {
 												assem_add_instr_arg3("INF", 0, 0, 1);		
 												assem_add_instr_arg2("STORE", $2, 0);			
 												sym_delete_last_temporary();
-											    $$ = $2; // On récupère l'adresse où se trouve le resultat de la comparaison
+											    $$ = $2; 
 													}
 	 | tPAR_L Expression tINF tAFFECT Expression tPAR_R {
 												assem_add_instr_arg2("LOAD", 0 , $2);
@@ -172,10 +163,10 @@ Condition: tPAR_L Expression tINF Expression tPAR_R {
 											    $$ = $2;
 												}
 	 | tPAR_L Expression tINF tSUP Expression tPAR_R {
-												// On ne sait pas quoi mettree comme instruction assembleur.
+												
 													}
 	 | tPAR_L tNOT Expression tPAR_R {
-												// On ne sait pas quoi mettree comme instruction assembleur.
+												
 									 }; 
 
 Instructions :	Instruction Instructions | ;
@@ -255,17 +246,13 @@ Expression : Expression tPLUS Expression {
 %%
 int main(){
 	yydebug = 0;
-	//lab_init(); 
 	sym_init();
 	assem_init();
-	//fonc_init();
 	yyparse();
 	func_table_display();
 	sym_display();
 	assem_display();
 	assem_write_file_instrs();
-	//fonc_maj_appels_mem_instr();
-	//mem_ecr_instrs();
 	assem_write_obj();
 }
 

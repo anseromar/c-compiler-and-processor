@@ -507,14 +507,14 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    39,    39,    41,    41,    43,    43,    46,    46,    48,
-      48,    48,    50,    50,    52,    52,    54,    56,    56,    58,
-      58,    60,    60,    60,    60,    62,    62,    62,    62,    64,
-      64,    64,    66,    66,    68,    71,    77,    79,    79,    81,
-      82,    88,    89,    90,    93,    96,   105,   103,   123,   123,
-     134,   142,   150,   158,   166,   174,   177,   181,   181,   183,
-     186,   194,   202,   210,   218,   219,   230,   231,   232,   245,
-     246,   247,   248,   254
+       0,    38,    38,    40,    40,    42,    42,    45,    45,    47,
+      47,    47,    49,    49,    51,    51,    53,    55,    55,    57,
+      57,    59,    59,    59,    59,    61,    61,    61,    61,    63,
+      63,    63,    65,    65,    67,    70,    76,    78,    78,    80,
+      81,    87,    88,    89,    92,    95,   104,   102,   114,   114,
+     125,   133,   141,   149,   157,   165,   168,   172,   172,   174,
+     177,   185,   193,   201,   209,   210,   221,   222,   223,   236,
+     237,   238,   239,   245
 };
 #endif
 
@@ -1398,68 +1398,68 @@ yyreduce:
   switch (yyn)
     {
         case 5:
-#line 43 "source/compiler.y" /* yacc.c:1646  */
+#line 42 "source/compiler.y" /* yacc.c:1646  */
     { sym_incr_depth(); func_update((yyvsp[-1].var), 1, assem_number_instr());
 							 func_set_active((yyvsp[-1].var));}
 #line 1405 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 44 "source/compiler.y" /* yacc.c:1646  */
+#line 43 "source/compiler.y" /* yacc.c:1646  */
     { func_set_inactive();}
 #line 1411 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 48 "source/compiler.y" /* yacc.c:1646  */
+#line 47 "source/compiler.y" /* yacc.c:1646  */
     { sym_add_symbol((yyvsp[-1].var),0,0); }
 #line 1417 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 48 "source/compiler.y" /* yacc.c:1646  */
+#line 47 "source/compiler.y" /* yacc.c:1646  */
     { sym_add_symbol((yyvsp[0].var),0,0); }
 #line 1423 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 54 "source/compiler.y" /* yacc.c:1646  */
+#line 53 "source/compiler.y" /* yacc.c:1646  */
     { sym_delete_body(); sym_decr_depth(); }
 #line 1429 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 58 "source/compiler.y" /* yacc.c:1646  */
+#line 57 "source/compiler.y" /* yacc.c:1646  */
     { assem_add_instr_arg2("AFC",0,(yyvsp[-1].nb)); assem_add_instr_arg2("STORE", 1000,0);  assem_add_instr_arg0("RET");}
 #line 1435 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 62 "source/compiler.y" /* yacc.c:1646  */
+#line 61 "source/compiler.y" /* yacc.c:1646  */
     { func_update("main",1,assem_number_instr());}
 #line 1441 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 62 "source/compiler.y" /* yacc.c:1646  */
+#line 61 "source/compiler.y" /* yacc.c:1646  */
     { func_set_inactive(); }
 #line 1447 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 62 "source/compiler.y" /* yacc.c:1646  */
+#line 61 "source/compiler.y" /* yacc.c:1646  */
     { sym_incr_depth(); }
 #line 1453 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 62 "source/compiler.y" /* yacc.c:1646  */
+#line 61 "source/compiler.y" /* yacc.c:1646  */
     { sym_delete_body(); sym_decr_depth(); }
 #line 1459 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 68 "source/compiler.y" /* yacc.c:1646  */
+#line 67 "source/compiler.y" /* yacc.c:1646  */
     {
 				   sym_add_symbol((yyvsp[0].var),0,1);
                    }
@@ -1467,7 +1467,7 @@ yyreduce:
     break;
 
   case 35:
-#line 71 "source/compiler.y" /* yacc.c:1646  */
+#line 70 "source/compiler.y" /* yacc.c:1646  */
     { 
 				   sym_add_symbol((yyvsp[-2].var), 1, 1); 
 				   assem_add_instr_arg2("LOAD",0,sym_get_last_temporary_index()); 
@@ -1478,13 +1478,13 @@ yyreduce:
     break;
 
   case 39:
-#line 81 "source/compiler.y" /* yacc.c:1646  */
+#line 80 "source/compiler.y" /* yacc.c:1646  */
     {sym_add_symbol((yyvsp[0].var),0,0);}
 #line 1484 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 82 "source/compiler.y" /* yacc.c:1646  */
+#line 81 "source/compiler.y" /* yacc.c:1646  */
     {
 		  	sym_add_symbol((yyvsp[-2].var),1,0); sym_add_symbol((yyvsp[-2].var), 1, 1); 
 	        assem_add_instr_arg2("LOAD",0,sym_get_last_temporary_index()); 
@@ -1495,25 +1495,25 @@ yyreduce:
     break;
 
   case 41:
-#line 88 "source/compiler.y" /* yacc.c:1646  */
+#line 87 "source/compiler.y" /* yacc.c:1646  */
     {sym_add_symbol((yyvsp[0].var),0,0);}
 #line 1501 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 89 "source/compiler.y" /* yacc.c:1646  */
+#line 88 "source/compiler.y" /* yacc.c:1646  */
     {sym_add_symbol((yyvsp[-2].var),1,0);}
 #line 1507 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 90 "source/compiler.y" /* yacc.c:1646  */
+#line 89 "source/compiler.y" /* yacc.c:1646  */
     {sym_add_symbol((yyvsp[-3].var),0,0);}
 #line 1513 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 93 "source/compiler.y" /* yacc.c:1646  */
+#line 92 "source/compiler.y" /* yacc.c:1646  */
     { assem_add_instr_arg2("LOAD", 1,(yyvsp[0].nb));
 					 assem_add_instr_arg2("JMPC", -1, 1);
 					 (yyval.nb) = assem_number_instr() - 1;	}
@@ -1521,68 +1521,66 @@ yyreduce:
     break;
 
   case 45:
-#line 99 "source/compiler.y" /* yacc.c:1646  */
+#line 98 "source/compiler.y" /* yacc.c:1646  */
     {
-					assem_modify_arg_instr((yyvsp[-4].nb), 0, assem_number_instr() + 1 ); // On rectifie la ligne du saut du JMPC, préalablement initialisée à une valeur par défaut (-1).
+					assem_modify_arg_instr((yyvsp[-4].nb), 0, assem_number_instr() + 1 );
 					}
 #line 1529 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 105 "source/compiler.y" /* yacc.c:1646  */
+#line 104 "source/compiler.y" /* yacc.c:1646  */
     {
-					 /*JUMP POUR EVITER LE ELSE ---> (1) */
 					 assem_add_instr_arg2("JMPC", -1, 1);
 					 (yyvsp[0].nb) = assem_number_instr() - 1;
-					 /*RETOURNER LA lIGNE OU JUMP POUR LE ELSE*/
 					 assem_modify_arg_instr((yyvsp[-4].nb), 0, assem_number_instr() + 1);
 				   }
-#line 1541 "y.tab.c" /* yacc.c:1646  */
+#line 1539 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 113 "source/compiler.y" /* yacc.c:1646  */
-    { /*EN LIEN AVEC (1) PERMET DE FORNI LE NUMERO DE LIGNE*/ 
+#line 110 "source/compiler.y" /* yacc.c:1646  */
+    { 
 	     assem_modify_arg_instr((yyvsp[-6].nb), 0, assem_number_instr() + 1);
                                                 	}
-#line 1549 "y.tab.c" /* yacc.c:1646  */
+#line 1547 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 123 "source/compiler.y" /* yacc.c:1646  */
-    { /*MEME IDEE QUE POUR LE IF*/
+#line 114 "source/compiler.y" /* yacc.c:1646  */
+    { 
 						   (yyvsp[0].nb) = assem_number_instr() - 7; 
 						   assem_add_instr_arg2("LOAD", 1, (yyvsp[-1].nb));
 						   assem_add_instr_arg2("JMPC", -1, 1);
                            (yyvsp[-2].nb) = assem_number_instr() - 1;
 						 }
-#line 1560 "y.tab.c" /* yacc.c:1646  */
+#line 1558 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 129 "source/compiler.y" /* yacc.c:1646  */
-    { /*RETOURNER LA lIGNE OU JUMP POUR LE WHILE : JUMP EN ARRIERE */
+#line 120 "source/compiler.y" /* yacc.c:1646  */
+    { 
 						   assem_add_instr_arg1("JMPC", (yyvsp[-4].nb));
 						   assem_modify_arg_instr((yyvsp[-6].nb), 0, assem_number_instr() + 1); 
 						 }
-#line 1569 "y.tab.c" /* yacc.c:1646  */
+#line 1567 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 134 "source/compiler.y" /* yacc.c:1646  */
+#line 125 "source/compiler.y" /* yacc.c:1646  */
     { 
 												assem_add_instr_arg2("LOAD", 0 , (yyvsp[-3].nb));
 												assem_add_instr_arg2("LOAD", 1 , (yyvsp[-1].nb));
 												assem_add_instr_arg3("INF", 0, 0, 1);		
 												assem_add_instr_arg2("STORE", (yyvsp[-3].nb), 0);			
 												sym_delete_last_temporary();
-											    (yyval.nb) = (yyvsp[-3].nb); // On récupère l'adresse où se trouve le resultat de la comparaison
+											    (yyval.nb) = (yyvsp[-3].nb); 
 													}
-#line 1582 "y.tab.c" /* yacc.c:1646  */
+#line 1580 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 142 "source/compiler.y" /* yacc.c:1646  */
+#line 133 "source/compiler.y" /* yacc.c:1646  */
     {
 												assem_add_instr_arg2("LOAD", 0 , (yyvsp[-4].nb));
 												assem_add_instr_arg2("LOAD", 1 , (yyvsp[-1].nb));
@@ -1591,11 +1589,11 @@ yyreduce:
 												sym_delete_last_temporary();
 											    (yyval.nb) = (yyvsp[-4].nb);
 														}
-#line 1595 "y.tab.c" /* yacc.c:1646  */
+#line 1593 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 150 "source/compiler.y" /* yacc.c:1646  */
+#line 141 "source/compiler.y" /* yacc.c:1646  */
     {
 												assem_add_instr_arg2("LOAD", 0 , (yyvsp[-3].nb));
 												assem_add_instr_arg2("LOAD", 1 , (yyvsp[-1].nb));
@@ -1604,11 +1602,11 @@ yyreduce:
 												sym_delete_last_temporary();
 											    (yyval.nb) = (yyvsp[-3].nb);
 												}
-#line 1608 "y.tab.c" /* yacc.c:1646  */
+#line 1606 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 158 "source/compiler.y" /* yacc.c:1646  */
+#line 149 "source/compiler.y" /* yacc.c:1646  */
     {
 												assem_add_instr_arg2("LOAD", 0 , (yyvsp[-4].nb));
 												assem_add_instr_arg2("LOAD", 1 , (yyvsp[-1].nb));
@@ -1617,11 +1615,11 @@ yyreduce:
 												sym_delete_last_temporary();
 											    (yyval.nb) = (yyvsp[-4].nb);	
 												}
-#line 1621 "y.tab.c" /* yacc.c:1646  */
+#line 1619 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 166 "source/compiler.y" /* yacc.c:1646  */
+#line 157 "source/compiler.y" /* yacc.c:1646  */
     {
 												assem_add_instr_arg2("LOAD", 0 , (yyvsp[-3].nb));
 												assem_add_instr_arg2("LOAD", 1 , (yyvsp[-1].nb));
@@ -1630,33 +1628,33 @@ yyreduce:
 												sym_delete_last_temporary();
 											    (yyval.nb) = (yyvsp[-3].nb);
 												}
-#line 1634 "y.tab.c" /* yacc.c:1646  */
+#line 1632 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 174 "source/compiler.y" /* yacc.c:1646  */
+#line 165 "source/compiler.y" /* yacc.c:1646  */
     {
-												// On ne sait pas quoi mettree comme instruction assembleur.
+												
 													}
-#line 1642 "y.tab.c" /* yacc.c:1646  */
+#line 1640 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 177 "source/compiler.y" /* yacc.c:1646  */
+#line 168 "source/compiler.y" /* yacc.c:1646  */
     {
-												// On ne sait pas quoi mettree comme instruction assembleur.
+												
 									 }
-#line 1650 "y.tab.c" /* yacc.c:1646  */
+#line 1648 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 183 "source/compiler.y" /* yacc.c:1646  */
+#line 174 "source/compiler.y" /* yacc.c:1646  */
     {/*INSTRUCTION PRINT */}
-#line 1656 "y.tab.c" /* yacc.c:1646  */
+#line 1654 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 186 "source/compiler.y" /* yacc.c:1646  */
+#line 177 "source/compiler.y" /* yacc.c:1646  */
     {	
 										 assem_add_instr_arg2("LOAD", 0 , (yyvsp[-2].nb));
 										 assem_add_instr_arg2("LOAD", 1 , (yyvsp[0].nb));
@@ -1665,11 +1663,11 @@ yyreduce:
 										 sym_delete_last_temporary();
 										 (yyval.nb) = (yyvsp[-2].nb);
 										}
-#line 1669 "y.tab.c" /* yacc.c:1646  */
+#line 1667 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 194 "source/compiler.y" /* yacc.c:1646  */
+#line 185 "source/compiler.y" /* yacc.c:1646  */
     {  
 									   	assem_add_instr_arg2("LOAD", 0 , (yyvsp[-2].nb));
 										assem_add_instr_arg2("LOAD", 1 , (yyvsp[0].nb));	
@@ -1678,11 +1676,11 @@ yyreduce:
 										sym_delete_last_temporary();
 										(yyval.nb) = (yyvsp[-2].nb); 
 									}
-#line 1682 "y.tab.c" /* yacc.c:1646  */
+#line 1680 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 202 "source/compiler.y" /* yacc.c:1646  */
+#line 193 "source/compiler.y" /* yacc.c:1646  */
     {
 									   assem_add_instr_arg2("LOAD", 0 , (yyvsp[-2].nb));
 									   assem_add_instr_arg2("LOAD", 1 , (yyvsp[0].nb));	
@@ -1691,11 +1689,11 @@ yyreduce:
 									   sym_delete_last_temporary();
 									   (yyval.nb) = (yyvsp[-2].nb);    
 								  }
-#line 1695 "y.tab.c" /* yacc.c:1646  */
+#line 1693 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 210 "source/compiler.y" /* yacc.c:1646  */
+#line 201 "source/compiler.y" /* yacc.c:1646  */
     { 
 									   assem_add_instr_arg2("LOAD", 0 , (yyvsp[-2].nb));
 									   assem_add_instr_arg2("LOAD", 1 , (yyvsp[0].nb));	
@@ -1704,17 +1702,17 @@ yyreduce:
 									   sym_delete_last_temporary();
 									   (yyval.nb) = (yyvsp[-2].nb); 
 								 }
-#line 1708 "y.tab.c" /* yacc.c:1646  */
+#line 1706 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 218 "source/compiler.y" /* yacc.c:1646  */
+#line 209 "source/compiler.y" /* yacc.c:1646  */
     { (yyval.nb) = (yyvsp[-1].nb) ; }
-#line 1714 "y.tab.c" /* yacc.c:1646  */
+#line 1712 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 219 "source/compiler.y" /* yacc.c:1646  */
+#line 210 "source/compiler.y" /* yacc.c:1646  */
     { 
 								if (sym_check_const((yyvsp[-2].var)) == 1 ){
 									printf("La variable est une constante  !! ");		
@@ -1726,23 +1724,23 @@ yyreduce:
 									assem_add_instr_arg2("STORE",sym_get_index_decl((yyvsp[-2].var)),0);
 									}				
 							 }
-#line 1730 "y.tab.c" /* yacc.c:1646  */
+#line 1728 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 230 "source/compiler.y" /* yacc.c:1646  */
+#line 221 "source/compiler.y" /* yacc.c:1646  */
     { (yyval.nb) = 123; }
-#line 1736 "y.tab.c" /* yacc.c:1646  */
+#line 1734 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 231 "source/compiler.y" /* yacc.c:1646  */
+#line 222 "source/compiler.y" /* yacc.c:1646  */
     { (yyval.nb) = 123; }
-#line 1742 "y.tab.c" /* yacc.c:1646  */
+#line 1740 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 232 "source/compiler.y" /* yacc.c:1646  */
+#line 223 "source/compiler.y" /* yacc.c:1646  */
     { 
 			if (sym_check_init_id((yyvsp[0].var)) == -1){
 				printf(" Elle n'existe même pas ta variable ! \n" );
@@ -1756,46 +1754,46 @@ yyreduce:
 			     (yyval.nb) = sym_get_last_temporary_index();
 				 }
 		  }
-#line 1760 "y.tab.c" /* yacc.c:1646  */
+#line 1758 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 245 "source/compiler.y" /* yacc.c:1646  */
+#line 236 "source/compiler.y" /* yacc.c:1646  */
     { (yyval.nb) = 123; }
-#line 1766 "y.tab.c" /* yacc.c:1646  */
+#line 1764 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 246 "source/compiler.y" /* yacc.c:1646  */
+#line 237 "source/compiler.y" /* yacc.c:1646  */
     { (yyval.nb) = 123; }
-#line 1772 "y.tab.c" /* yacc.c:1646  */
+#line 1770 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 247 "source/compiler.y" /* yacc.c:1646  */
+#line 238 "source/compiler.y" /* yacc.c:1646  */
     { (yyval.nb) = 123; }
-#line 1778 "y.tab.c" /* yacc.c:1646  */
+#line 1776 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 248 "source/compiler.y" /* yacc.c:1646  */
+#line 239 "source/compiler.y" /* yacc.c:1646  */
     {
 				sym_add_temporary(); 
 				assem_add_instr_arg2("AFC", 0, (yyvsp[0].nb)); 
 				assem_add_instr_arg2("STORE", sym_get_last_temporary_index(), 0);
 				(yyval.nb) = sym_get_last_temporary_index();
 			  }
-#line 1789 "y.tab.c" /* yacc.c:1646  */
+#line 1787 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 254 "source/compiler.y" /* yacc.c:1646  */
+#line 245 "source/compiler.y" /* yacc.c:1646  */
     { (yyval.nb) = 123; }
-#line 1795 "y.tab.c" /* yacc.c:1646  */
+#line 1793 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1799 "y.tab.c" /* yacc.c:1646  */
+#line 1797 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2023,21 +2021,17 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 255 "source/compiler.y" /* yacc.c:1906  */
+#line 246 "source/compiler.y" /* yacc.c:1906  */
 
 int main(){
 	yydebug = 0;
-	//lab_init(); 
 	sym_init();
 	assem_init();
-	//fonc_init();
 	yyparse();
 	func_table_display();
 	sym_display();
 	assem_display();
 	assem_write_file_instrs();
-	//fonc_maj_appels_mem_instr();
-	//mem_ecr_instrs();
 	assem_write_obj();
 }
 

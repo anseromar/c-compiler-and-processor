@@ -1,0 +1,13 @@
+int main() {
+	int a = 1;
+	int b = 0;
+	int c = 1;
+	
+	if (a == b){
+		c = 2;
+		b = c;
+	} else{
+		c = 3;
+	}	
+}
+

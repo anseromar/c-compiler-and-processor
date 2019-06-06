@@ -25,7 +25,7 @@ architecture Structural of datapath is
 	COMPONENT instruction_pointer
 	GENERIC(Naib: natural);
 	PORT(
-		CLK, in_RST, Reset_base_addr: in std_logic;
+		CLK, in_RST, Reset_base_addr, Pause: in std_logic;
 		Base_addr: in std_logic_vector(Naib-1 downto 0);
 		Output: out std_logic_vector(Naib-1 downto 0);
 		flag_O, out_RST: out std_logic
@@ -46,8 +46,9 @@ architecture Structural of datapath is
 	PORT(
 		Full_instr: in  std_logic_vector(4*N-1 downto 0);
 		Op, A, B, C: out std_logic_vector(N-1 downto 0);
-		Reset_base_addr: out std_logic;
+		out_Pause, Reset_base_addr: out std_logic;
 		Base_addr: out std_logic_vector(Naib-1 downto 0)
+		
 	);
 	END COMPONENT;
 
@@ -242,6 +243,7 @@ architecture Structural of datapath is
 	signal outBD_Base_addr:				std_logic_vector(N-1 downto 0);
 	signal outCL_JMPC_RST_Base_addr:	std_logic;
 	signal outCL_JMPC_Base_addr:		std_logic_vector(N-1 downto 0);
+	signal pause_inIP:					std_logic;									-- Used for hazards management
 
 
 
@@ -251,7 +253,7 @@ architecture Structural of datapath is
 		--					v0: Supports AFC
 
 --		IP:	instruction_pointer	generic map(Naib => Naib)
---											port map(CLK, RST, reset_base_addr,
+--											port map(CLK, RST, reset_base_addr, (others=>0),
 --														base_addr,
 --																				current_addr,
 --																				open, outIP_reset);
@@ -302,7 +304,7 @@ architecture Structural of datapath is
 		--					v1: Support for AFC & COP
 
 --		IP:	instruction_pointer	generic map(Naib => Naib)
---											port map(CLK, RST, reset_base_addr,
+--											port map(CLK, RST, reset_base_addr, (others=>0),
 --														base_addr,
 --																				current_addr,
 --																				open, outIP_reset);
@@ -357,7 +359,7 @@ architecture Structural of datapath is
 		--					v2: Added support for ADD, SOU & MUL
 
 --		IP:	instruction_pointer	generic map(Naib => Naib)
---											port map(CLK, RST, reset_base_addr,
+--											port map(CLK, RST, reset_base_addr, (others=>0),
 --														base_addr,
 --																				current_addr,
 --																				open, outIP_reset);
@@ -370,6 +372,7 @@ architecture Structural of datapath is
 --														Naib => Naib)
 --										port map(out_instr_bank,
 --																				outBD.Op, outBD.A, outBD.B, outBD.C,
+--																				open,
 --																				reset_base_addr, base_addr);
 --		P1:	pipeline				generic map(N => N)
 --										port map(CLK,
@@ -420,7 +423,7 @@ architecture Structural of datapath is
 		--					v3: Added support for LOAD
 
 --		IP:	instruction_pointer	generic map(Naib => Naib)
---											port map(CLK, RST, reset_base_addr,
+--											port map(CLK, RST, reset_base_addr, (others=>0),
 --														base_addr,
 --																				current_addr,
 --																				open, outIP_reset);
@@ -433,6 +436,7 @@ architecture Structural of datapath is
 --														Naib => Naib)
 --										port map(out_instr_bank,
 --																				outBD.Op, outBD.A, outBD.B, outBD.C,
+--																				open,
 --																				reset_base_addr, base_addr);
 --		P1:	pipeline				generic map(N => N)
 --										port map(CLK,
@@ -490,7 +494,7 @@ architecture Structural of datapath is
 		--					v4 (FINAL VERSION): Added support for STORE
 
 --		IP:	instruction_pointer	generic map(Naib => Naib)
---											port map(CLK, RST, reset_base_addr,
+--											port map(CLK, RST, reset_base_addr, (others=>0),
 --														base_addr,
 --																				current_addr,
 --																				open, outIP_reset);
@@ -503,6 +507,7 @@ architecture Structural of datapath is
 --														Naib => Naib)
 --										port map(out_instr_bank,
 --																				outBD.Op, outBD.A, outBD.B, outBD.C,
+--																				open,
 --																				reset_base_addr, base_addr);
 --		P1:	pipeline				generic map(N => N)
 --										port map(CLK,
@@ -566,7 +571,7 @@ architecture Structural of datapath is
 		--					v5: Added support for EQU, INF, INFE, SUP, SUPE & JMPC
 
 		IP:	instruction_pointer	generic map(Naib => Naib)
-											port map(CLK, RST, reset_base_addr,
+											port map(CLK, RST, reset_base_addr, pause_inIP,
 														base_addr,
 																				current_addr,
 																				open, outIP_reset);
@@ -579,6 +584,7 @@ architecture Structural of datapath is
 														Naib => Naib)
 										port map(out_instr_bank,
 																				outBD.Op, outBD.A, outBD.B, outBD.C,
+																				pause_inIP,
 																				outBD_RST_Base_addr, outBD_Base_addr);
 		P1:	pipeline				generic map(N => N)
 										port map(CLK,
