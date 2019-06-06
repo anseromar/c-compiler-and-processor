@@ -24,7 +24,7 @@ end data_bank;
 
 architecture Behavioral of data_bank is
 	type bank is array (Nb-1 downto 0) of std_logic_vector(N-1 downto 0);
-	signal data_b: bank;
+	signal data_b: bank := (others=>(others=>'1'));
 	signal Addr: std_logic_vector(Na-1 downto 0) := Addr_part1 & Addr_part2;
 begin
 	process

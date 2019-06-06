@@ -26,15 +26,15 @@ end register_file;
 architecture Behavioral of register_file is
 	-- Definition of the registers array
 	type reg_type is array (Nr-1 downto 0) of std_logic_vector(N-1 downto 0);
-	signal registers: reg_type;
+	signal registers: reg_type := (others=>(others=>'1'));
 	
 begin
 	-- Reading registers Addr_A and Addr_B
 	QA <=	registers(to_integer(unsigned(Addr_A)))	when Addr_A /= Addr_W AND W = '1'
-		else	(others=>'0')	when RST = '1'
+		else	(others=>'1')	when RST = '1'
 		else	DATA;
 	QB <=	registers(to_integer(unsigned(Addr_B)))	when Addr_B /= Addr_W AND W = '1'
-		else	(others=>'0')	when RST = '1'
+		else	(others=>'1')	when RST = '1'
 		else	DATA;
 		
 	-- Writing in register Addr_W if W='1'
@@ -42,7 +42,7 @@ begin
 	begin
 		wait until CLK'event and CLK='1';
 		if RST = '1' then
-			registers <= (others => (others => '0'));
+			registers <= (others=>(others=>'1'));
 		elsif W = '1' then
 			registers(to_integer(unsigned(Addr_W))) <= DATA;
 		end if;
